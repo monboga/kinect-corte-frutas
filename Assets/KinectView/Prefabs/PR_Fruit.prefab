@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2457673272547489177}
   - component: {fileID: 5860373344228074482}
   m_Layer: 0
-  m_Name: PR_Bubble
-  m_TagString: Bubble
+  m_Name: PR_Fruit
+  m_TagString: Fruit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,9 +62,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a904e5f8db6a2fa438e65ecaed80f753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBubbleSprite: {fileID: 21300000, guid: 584371fce9323414388996018f201db2, type: 3}
-  mPopSprite: {fileID: 21300000, guid: af9612bcec6479448a4ac305695436ef, type: 3}
-  mBubbleManager: {fileID: 0}
+  mFruitSprite: {fileID: 21300000, guid: 92804749b2c6ea84895b70bdbdc6eb73, type: 3}
+  mCutSprite: {fileID: 21300000, guid: abb15dc117eeb1749bf8c531af2f22a4, type: 3}
+  mFruitManager: {fileID: 0}
 --- !u!212 &5860373344228074482
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -106,12 +106,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 584371fce9323414388996018f201db2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 92804749b2c6ea84895b70bdbdc6eb73, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.28, y: 1.28}
+  m_Size: {x: 2.55, y: 2.55}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -16,10 +16,10 @@ public class Hand : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag("Bubble"))
+        if (!collision.gameObject.CompareTag("Fruit"))
             return;
-        Bubble bubble = collision.gameObject.GetComponent<Bubble>();
-        StartCoroutine(bubble.Pop());
+        Fruit fruit = collision.gameObject.GetComponent<Fruit>();
+        StartCoroutine(fruit.Pop());
     }
 
 

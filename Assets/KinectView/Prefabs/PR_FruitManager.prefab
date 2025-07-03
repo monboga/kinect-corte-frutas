@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4826949526600579534}
   - component: {fileID: -4894958596002548981}
   m_Layer: 0
-  m_Name: PR_BubbleManager
+  m_Name: PR_FruitManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd540e32ed8d6ef449f7358f3a0c3445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBubblePrefab: {fileID: 6085333594325424986, guid: 7656d920538a4fc449f74508e04e4caa, type: 3}
+  mFruitPrefab: {fileID: 6085333594325424986, guid: 7656d920538a4fc449f74508e04e4caa, type: 3}
