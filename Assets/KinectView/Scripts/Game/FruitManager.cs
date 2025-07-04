@@ -81,6 +81,21 @@ public class FruitManager : MonoBehaviour
         }
     }
 
+    // nuevo metodo
+    // destruye todas las frutas que quedan en la pantalla.
+    public void DestroyAllFruits()
+    {
+        // iteramos sobre todos los objetos de fruta que hemos creado
+        foreach(GameObject fruitObject in GameObject.FindGameObjectsWithTag("Fruit"))
+        {
+            // verificamos que el objeto no haya sido destruido ya.
+            if(fruitObject != null)
+            {
+                Destroy(fruitObject);
+            }
+        }
+    }
+
     /* 
     private void OnDrawGizmos()
     {
