@@ -401,7 +401,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &143735615
 GameObject:
@@ -1091,7 +1091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4826949526600579534, guid: 087910777657b1a49819c89ae8cd5730, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4826949526600579534, guid: 087910777657b1a49819c89ae8cd5730, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1251,7 +1251,7 @@ RectTransform:
   - {fileID: 1827991244}
   - {fileID: 1896135086}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1356,7 +1356,7 @@ MonoBehaviour:
   restartButton: {fileID: 7105288}
   instructionsPanel: {fileID: 1087681218}
   waitingText: {fileID: 1827991242}
-  bodyView: {fileID: 3784197929666177447}
+  bodyView: {fileID: 0}
   kinecInputController: {fileID: 2081313978}
   handCursor: {fileID: 1896135083}
   maxFruits: 20
@@ -1374,7 +1374,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1638684838
 GameObject:
@@ -1602,7 +1602,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1827991241
 GameObject:
@@ -1831,7 +1831,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -1, y: 0, z: 0}
 --- !u!1 &1896135083
 GameObject:
@@ -2199,73 +2199,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &3784197929666177446
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 544.046
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 523.5227
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -176.1903
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622074, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3784197929373622077, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-      propertyPath: m_Name
-      value: KinectManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
---- !u!114 &3784197929666177447 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3784197929626658334, guid: c62bb84f17133464085eb4cc1ba3c6bb, type: 3}
-  m_PrefabInstance: {fileID: 3784197929666177446}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8821130411451d343a1488e2a9db134e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

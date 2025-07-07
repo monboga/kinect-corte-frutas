@@ -24,7 +24,10 @@ public class KinectMenuController : MonoBehaviour
         handCursor.gameObject.SetActive(false);
 
         // buscamos el gestor del Kinect en la escena.
-        bodyManager = FindObjectOfType<BodySourceManager>();
+        // bodyManager = FindObjectOfType<BodySourceManager>();
+
+        // ahora
+        bodyManager = BodySourceManager.instance;
 
         
     }

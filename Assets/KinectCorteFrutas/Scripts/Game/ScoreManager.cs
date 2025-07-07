@@ -28,7 +28,6 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI waitingText; // texto de espera.
 
     [Header("Componentes de Kinect")]
-    public BodySourceView bodyView; // referencia al script que dibuja las manos 3D.
     public GameObject kinecInputController; // referencia al objeto que tiene el cursos.
     public GameObject handCursor; // objeto visual del cursor
 
@@ -38,6 +37,7 @@ public class ScoreManager : MonoBehaviour
 
     // referencia al gestor del Kinect
     private BodySourceManager bodySourceManager;
+    private BodySourceView bodyView; // referencia al script que dibuja las manos 3D.
 
     private int score = 0;
     private int fruitsRemaining; // Contador de frutas.
@@ -53,7 +53,20 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         // buscamos el BodySourceManager al inciar.
-        bodySourceManager = FindObjectOfType<BodySourceManager>();
+        // bodySourceManager = FindObjectOfType<BodySourceManager>();
+        // ahora
+
+        bodySourceManager = BodySourceManager.instance;
+
+        // usando esa instancia, buscamos el componente BodySourceView en sus hijos.
+        bodyView = bodySourceManager.bodyView;
+
+        if(bodyView == null)
+        {
+            Debug.LogError("ERROR: la variable 'bodyview' no ha sido asignada en elprefab de KinectManager");
+            return;
+
+        }
 
         // estado inicial del juego: Mostrar las instrucciones
         currentState = GameState.Instructions;

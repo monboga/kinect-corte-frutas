@@ -4,9 +4,30 @@ using Windows.Kinect;
 
 public class BodySourceManager : MonoBehaviour 
 {
+    // singleton nuevo
+    public static BodySourceManager instance = null;
+    public BodySourceView bodyView; // linea agregada
+
     private KinectSensor _Sensor;
     private BodyFrameReader _Reader;
     private Body[] _Data = null;
+
+    // awake se ejecuta antes que start. es ideal para configurar un singleton
+    void Awake()
+    {
+        // si no existe ninguna instancia de este script, esta se convierte en la instancia
+        if(instance == null)
+        {
+            instance = this;
+            // le decimos a unity que no destruya este objeto al cargar otra escena.
+            DontDestroyOnLoad(transform.root.gameObject);
+        }
+        // si ya existe una instancia y no es esta, entonces esta es un duplicado y la destruimos.
+        else if(instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
     
     public Body[] GetData()
     {
