@@ -27,7 +27,8 @@ public class FruitManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(CreateFruitsGradually());
+        // se comenta ya que no se utiliza y se usara otro metodo.
+        // StartCoroutine(CreateFruitsGradually());
     }
 
     // metodo de spawn modificado
@@ -56,7 +57,7 @@ public class FruitManager : MonoBehaviour
     }
 
     // funcion de creacion modificada
-    private IEnumerator CreateFruitsGradually()
+    public IEnumerator CreateFruitsGradually()
     {
         while(mAllFruits.Count < maxFruits)
         {

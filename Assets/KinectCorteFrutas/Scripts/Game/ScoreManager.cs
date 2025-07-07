@@ -4,9 +4,14 @@ using UnityEngine;
 using UnityEngine.UI; // necesario para el boton
 using UnityEngine.SceneManagement; // necesario para reinciar la escena
 using TMPro; // importante para usar TextMeshPro
+using System.Linq; // importante para la deteccion del cuerpo
 
 public class ScoreManager : MonoBehaviour
 {
+
+    // Enum para controlar el estado del juego
+    public enum GameState { Instructions, WaitingForPlayer, Playing, GameOver }
+    public GameState currentState;
 
     // Instancia estatica para acceder facilmente desde otros scripts
     public static ScoreManager instance;
@@ -19,14 +24,18 @@ public class ScoreManager : MonoBehaviour
     public GameObject gameOverPanel; // refrencia a nuestro panel
     public TextMeshProUGUI resultText; // El texto de "Ganaste" o "Perdiste"
     public Button restartButton; // el boton de reinicio
+    public GameObject instructionsPanel; // Panel de Instrucciones
+    public TextMeshProUGUI waitingText; // texto de espera.
 
     [Header("Configuracion del juego")]
     public int maxFruits = 20;
 
+    // referencia al gestor del Kinect
+    private BodySourceManager bodySourceManager;
+
     private int score = 0;
     private int fruitsRemaining; // Contador de frutas.
     public float timeRemaining = 30; // Tiempo inicial en segundos
-    public bool timerIsRunning = true; // Para conocer si el timer debe correr
 
     // Awake se llama antes de cualquier metodo start
     private void Awake()
@@ -37,45 +46,81 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // tomamos el valor de nuestra variable de maxFruits
+        // buscamos el BodySourceManager al inciar.
+        bodySourceManager = FindObjectOfType<BodySourceManager>();
+
+        // estado inicial del juego: Mostrar las instrucciones
+        currentState = GameState.Instructions;
+        instructionsPanel.SetActive(true);
+        waitingText.gameObject.SetActive(false);
+        gameOverPanel.SetActive(false);
+
+        // preparamos los contadores pero no los iniciamos
         fruitsRemaining = maxFruits;
         // inicializa el texto del puntaje
-        scoreText.text = "Score: " + score.ToString();
-        gameOverPanel.SetActive(false); // nos aseguramos que el panel este oculto
-
-        // inicializa el estado del timer
-        timerIsRunning = true;
+        scoreText.text = "Score: 0";
+        DisplayTime(timeRemaining);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        // logica del Temporizador
-        if(timerIsRunning)
+        // Solo revisamos el estado si el juego no ha termiando
+        if(currentState == GameState.WaitingForPlayer)
         {
-            if(timeRemaining > 0)
+            // Comprobamos si el Kinect detecta un cuerpo
+            if(bodySourceManager != null && bodySourceManager.GetData().Any(b => b.IsTracked))
             {
-                // restamos el tiempo que ha pasado desde el ultimo frame
+
+                StartGame();
+
+            }
+            
+        }
+        else if (currentState == GameState.Playing)
+        {
+            // la logica del timer solo corre cuando estamos jugando
+            if (timeRemaining > 0)
+            {
                 timeRemaining -= Time.deltaTime;
-                // actualizamos el texto en pantalla
                 DisplayTime(timeRemaining);
             }
             else
             {
-                Debug.Log("¡El tiempo se ha acabado!");
                 timeRemaining = 0;
                 DisplayTime(timeRemaining);
                 EndGame(false);
-
-                // aqui se podria agregar la logica del "Game Over"
             }
+        }
+
+    }
+
+    // se llama con el boton de "¡Entendido!" del panel de instrucciones
+    public void DismissInstructions()
+    {
+        instructionsPanel.SetActive(false);
+        waitingText.gameObject.SetActive(true);
+        currentState = GameState.WaitingForPlayer;
+    }
+
+    // inicia la logia principal del juego
+    void StartGame()
+    {
+        currentState = GameState.Playing;
+        waitingText.gameObject.SetActive(false);
+
+        // Le damos la orden al FruitManager de que empiece a crear las frutas
+        FruitManager fruitManager = FindObjectOfType<FruitManager>();
+        if (fruitManager != null)
+        {
+            StartCoroutine(fruitManager.CreateFruitsGradually());
         }
     }
 
     public void FruitCut()
     {
-        if (!timerIsRunning) return;
+        if (currentState != GameState.Playing) return;
         fruitsRemaining--;
 
         if(fruitsRemaining <= 0)
@@ -86,24 +131,10 @@ public class ScoreManager : MonoBehaviour
 
     void EndGame(bool hasWon)
     {
-        timerIsRunning = false;
+        currentState = GameState.GameOver;
         gameOverPanel.SetActive(true);
-
-        FruitManager fruitManager = FindObjectOfType<FruitManager>();
-        if(fruitManager != null)
-        {
-            fruitManager.DestroyAllFruits();
-        }
-
-        if(hasWon)
-        {
-            resultText.text = "¡GANASTE!";
-
-        }
-        else
-        {
-            resultText.text = "SE ACABO EL TIEMPO";
-        }
+        FindObjectOfType<FruitManager>()?.DestroyAllFruits();
+        resultText.text = hasWon ? "¡GANASTE!" : "¡SE ACABO EL TIEMPO!";
     }
 
     public void RestartGame()
