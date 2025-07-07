@@ -27,6 +27,12 @@ public class ScoreManager : MonoBehaviour
     public GameObject instructionsPanel; // Panel de Instrucciones
     public TextMeshProUGUI waitingText; // texto de espera.
 
+    [Header("Componentes de Kinect")]
+    public BodySourceView bodyView; // referencia al script que dibuja las manos 3D.
+    public GameObject kinecInputController; // referencia al objeto que tiene el cursos.
+    public GameObject handCursor; // objeto visual del cursor
+
+
     [Header("Configuracion del juego")]
     public int maxFruits = 20;
 
@@ -54,6 +60,11 @@ public class ScoreManager : MonoBehaviour
         instructionsPanel.SetActive(true);
         waitingText.gameObject.SetActive(false);
         gameOverPanel.SetActive(false);
+
+        // al inicio, solo queremos el cursor 2D para el menu de instrucciones
+        bodyView.enabled = false; // apagamos el dibujado de manos 3D.
+        kinecInputController.SetActive(true); // Encendemos el cursor del menu.
+        handCursor.SetActive(true);
 
         // preparamos los contadores pero no los iniciamos
         fruitsRemaining = maxFruits;
@@ -120,6 +131,11 @@ public class ScoreManager : MonoBehaviour
         currentState = GameState.Playing;
         waitingText.gameObject.SetActive(false);
 
+        // al empezar el juego, invertimos los papeles.
+        bodyView.enabled = true;
+        kinecInputController.SetActive(false);
+        handCursor.SetActive(false); // ocultamos el objeto del cursor
+
         // Le damos la orden al FruitManager de que empiece a crear las frutas
         FruitManager fruitManager = FindObjectOfType<FruitManager>();
         if (fruitManager != null)
@@ -143,6 +159,12 @@ public class ScoreManager : MonoBehaviour
     {
         currentState = GameState.GameOver;
         gameOverPanel.SetActive(true);
+
+        // al final del juego, apagamos todo
+        bodyView.enabled = false;
+        kinecInputController.SetActive(false);
+        handCursor.SetActive(false);
+
         FindObjectOfType<FruitManager>()?.DestroyAllFruits();
         resultText.text = hasWon ? "¡GANASTE!" : "¡SE ACABO EL TIEMPO!";
     }
