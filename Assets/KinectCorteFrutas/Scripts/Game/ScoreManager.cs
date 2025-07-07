@@ -69,11 +69,21 @@ public class ScoreManager : MonoBehaviour
         // Solo revisamos el estado si el juego no ha termiando
         if(currentState == GameState.WaitingForPlayer)
         {
-            // Comprobamos si el Kinect detecta un cuerpo
-            if(bodySourceManager != null && bodySourceManager.GetData().Any(b => b.IsTracked))
+            // Primero, nos aseguramos de que el manager exista.
+            if(bodySourceManager != null )
             {
+                // obtenemos los datos del cuerpo en una variable
+                var bodies = bodySourceManager.GetData();
 
-                StartGame();
+                // ahora, ANTES de usar los datos, nos aseguramos de que no sean nulos.
+                // esta es la comprobacion que previene el error.
+                if(bodies != null && bodies.Any(b => b.IsTracked))
+                {
+                    // si todo es valido y hay un cuerpo, iniciamos el juego.
+                    StartGame();
+
+                }
+
 
             }
             
