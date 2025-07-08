@@ -81,6 +81,12 @@ public class BodySourceView : MonoBehaviour
         // Create body parent
         GameObject body = new GameObject("Body:" + id);
 
+        // si no hay un prefab de articulacion asignado, no intentes crear nada.
+        if(mJointObject == null)
+        {
+            return body; // simplemente devolvemos elobjeto padre vacio.
+        }
+
         //Create joints
         foreach(JointType joint in _joints)
         {
