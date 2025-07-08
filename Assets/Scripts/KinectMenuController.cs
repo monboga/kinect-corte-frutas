@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,8 +10,10 @@ public class KinectMenuController : MonoBehaviour
 {
     [Header("Configuracion de Interaccion")]
     public Image handCursor; // arrastra aqui tu UI Image del cursor.
+    public Image handCursorFill; // relleno de cursor
     public float dwellTime = 3.0f; // Tiempo en segundos para hacer "clic"
     public float handSensitivity = 0.4f; // sensibilidad del movimiento (mas bajo = mas movimiento).
+
 
     private BodySourceManager bodyManager;
     private Button lastButtonOver;
@@ -22,6 +25,7 @@ public class KinectMenuController : MonoBehaviour
 
         // ocultamos el cursor de la mano al inicio.
         handCursor.gameObject.SetActive(false);
+        handCursorFill.gameObject.SetActive(false);
 
         // buscamos el gestor del Kinect en la escena.
         // bodyManager = FindObjectOfType<BodySourceManager>();
@@ -29,7 +33,21 @@ public class KinectMenuController : MonoBehaviour
         // ahora
         bodyManager = BodySourceManager.instance;
 
+        handCursor.fillAmount = 0;
+        SceneManager.sceneLoaded += OnSceneLoaded;
         
+    }
+
+    void OnDestroy()
+    {
+        // nos desuscribimos del evento para evitar errores
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // resetamos el estado para evitar intentar usar un boton que ya fue destruido.
+        ResetDwell();
     }
 
     // Update is called once per frame
@@ -51,6 +69,7 @@ public class KinectMenuController : MonoBehaviour
 
         // si hay un cuerpo, mostramos el cursor.
         handCursor.gameObject.SetActive(true);
+        handCursorFill.gameObject.SetActive(true);
 
         // mover el cursor con la mano.
         // obtenemos la posicion de la mano derecha en el espacio 3D del kinect.

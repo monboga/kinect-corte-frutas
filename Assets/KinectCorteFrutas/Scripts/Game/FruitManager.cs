@@ -97,6 +97,15 @@ public class FruitManager : MonoBehaviour
         }
     }
 
+    public void Reset()
+    {
+        // destruimos cualquier fruta que haya quedado en pantalla
+        DestroyAllFruits();
+
+        // limpiamos la lista interna para que pueda volver a llenarse
+        mAllFruits.Clear();
+    }
+
     /* 
     private void OnDrawGizmos()
     {

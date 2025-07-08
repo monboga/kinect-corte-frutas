@@ -78,8 +78,7 @@ public class Fruit : MonoBehaviour
         if (isCut) yield break; // Si ya fue cortada, no hacemos nada
         isCut = true;
 
-        // LLamada al ScoreManager y le suma 5 puntos.
-        ScoreManager.instance.AddScore(5);
+        
         ScoreManager.instance.FruitCut();
 
         // Detenemos el movimiento y la logica para que no siga interactuando

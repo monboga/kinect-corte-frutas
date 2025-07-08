@@ -20,7 +20,7 @@ public class BodySourceManager : MonoBehaviour
         {
             instance = this;
             // le decimos a unity que no destruya este objeto al cargar otra escena.
-            DontDestroyOnLoad(transform.root.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         // si ya existe una instancia y no es esta, entonces esta es un duplicado y la destruimos.
         else if(instance != this)

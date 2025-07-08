@@ -34,6 +34,7 @@ public class ScoreManager : MonoBehaviour
 
     [Header("Configuracion del juego")]
     public int maxFruits = 20;
+    public int pointsPerFruit = 5;
 
     // referencia al gestor del Kinect
     private BodySourceManager bodySourceManager;
@@ -42,6 +43,8 @@ public class ScoreManager : MonoBehaviour
     private int score = 0;
     private int fruitsRemaining; // Contador de frutas.
     public float timeRemaining = 30; // Tiempo inicial en segundos
+
+    private float initialTime; // guardaremos el tiempo inicial para poder resetearlo
 
     // Awake se llama antes de cualquier metodo start
     private void Awake()
@@ -52,6 +55,9 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // guardamos el tiempo inicial una sola vez
+        initialTime = timeRemaining;
+
         // buscamos el BodySourceManager al inciar.
         // bodySourceManager = FindObjectOfType<BodySourceManager>();
         // ahora
@@ -59,7 +65,11 @@ public class ScoreManager : MonoBehaviour
         bodySourceManager = BodySourceManager.instance;
 
         // usando esa instancia, buscamos el componente BodySourceView en sus hijos.
-        bodyView = bodySourceManager.bodyView;
+        if(bodySourceManager != null)
+        {
+            bodyView = bodySourceManager.bodyView;
+
+        }
 
         if(bodyView == null)
         {
@@ -69,22 +79,33 @@ public class ScoreManager : MonoBehaviour
         }
 
         // estado inicial del juego: Mostrar las instrucciones
+        SetupInitialState();
+
+    }
+
+    private void SetupInitialState()
+    {
         currentState = GameState.Instructions;
+
+        // resetear las variables
+        score = 0;
+        fruitsRemaining = maxFruits;
+        timeRemaining = initialTime;
+
+        // resetar el UI
+        scoreText.text = "Score: 0";
+        DisplayTime(timeRemaining);
         instructionsPanel.SetActive(true);
         waitingText.gameObject.SetActive(false);
         gameOverPanel.SetActive(false);
 
-        // al inicio, solo queremos el cursor 2D para el menu de instrucciones
-        bodyView.enabled = false; // apagamos el dibujado de manos 3D.
-        kinecInputController.SetActive(true); // Encendemos el cursor del menu.
+        // configurar visibilidad de manos/cursor para el menu de instrucciones
+        bodyView.enabled = false;
+        kinecInputController.SetActive(true);
         handCursor.SetActive(true);
 
-        // preparamos los contadores pero no los iniciamos
-        fruitsRemaining = maxFruits;
-        // inicializa el texto del puntaje
-        scoreText.text = "Score: 0";
-        DisplayTime(timeRemaining);
-
+        // llamamos alnuevo metodo Reset del FruitManager
+        FindObjectOfType<FruitManager>().Reset();
     }
 
     // Update is called once per frame
@@ -150,16 +171,16 @@ public class ScoreManager : MonoBehaviour
         handCursor.SetActive(false); // ocultamos el objeto del cursor
 
         // Le damos la orden al FruitManager de que empiece a crear las frutas
-        FruitManager fruitManager = FindObjectOfType<FruitManager>();
-        if (fruitManager != null)
-        {
-            StartCoroutine(fruitManager.CreateFruitsGradually());
-        }
+        FindObjectOfType<FruitManager>()?.StartCoroutine("CreateFruitsGradually");
     }
 
     public void FruitCut()
     {
         if (currentState != GameState.Playing) return;
+
+        // logica de puntaje
+        AddScore(pointsPerFruit);
+
         fruitsRemaining--;
 
         if(fruitsRemaining <= 0)
@@ -175,8 +196,9 @@ public class ScoreManager : MonoBehaviour
 
         // al final del juego, apagamos todo
         bodyView.enabled = false;
-        kinecInputController.SetActive(false);
-        handCursor.SetActive(false);
+        // reactivamos el cursor 2D para el menu de Game Over
+        kinecInputController.SetActive(true);
+        handCursor.SetActive(true);
 
         FindObjectOfType<FruitManager>()?.DestroyAllFruits();
         resultText.text = hasWon ? "¡GANASTE!" : "¡SE ACABO EL TIEMPO!";
@@ -184,7 +206,7 @@ public class ScoreManager : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SetupInitialState();
     }
 
     // metodo para mostrar el tiempo formateado
@@ -203,6 +225,7 @@ public class ScoreManager : MonoBehaviour
     // metodo publico para añadir puntos
     public void AddScore(int points)
     {
+        Debug.Log("Valor del score: " + score + " y valor del points: " + points);
         score += points;
         scoreText.text = "Score: " + score.ToString();
     }
