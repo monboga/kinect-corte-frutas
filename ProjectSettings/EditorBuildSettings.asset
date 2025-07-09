@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: f3338ea5eac09b743a1f452067628ac0
   - enabled: 1
-    path: Assets/KinectCorteFrutas/MainScene.unity
+    path: Assets/KinectCorteFrutas/FruitCutScene.unity
     guid: 01b9ddfb10db1054ba83b23426728cc8
   m_configObjects: {}

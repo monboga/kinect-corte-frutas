@@ -5,7 +5,7 @@ using UnityEngine.UI; // necesario para el boton
 using UnityEngine.SceneManagement; // necesario para reinciar la escena
 using TMPro; // importante para usar TextMeshPro
 using System.Linq; // importante para la deteccion del cuerpo
-
+using KinectCorteFrutas; // agregado para referencias bien a las clases
 public class ScoreManager : MonoBehaviour
 {
 

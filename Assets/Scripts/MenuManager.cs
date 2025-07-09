@@ -31,13 +31,14 @@ public class MenuManager : MonoBehaviour
     {
         // Asegurate de que el nombre "MainScene" coincida exactamente
         // con el nombre de tu escena en la carpeta KinectView
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("FruitCutScene");
     }
 
     public void LoadPostureScene()
     {
         // Como la escena aun no existe, mostramos un mensaje en consola
         Debug.Log("Cargando escena de Deteccion de posturas (aun no implementada) ... ");
+        SceneManager.LoadScene("PostureScene");
     }
 
     // funciones generales

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
+using KinectCorteFrutas;
 
 public class KinectMenuController : MonoBehaviour
 {
