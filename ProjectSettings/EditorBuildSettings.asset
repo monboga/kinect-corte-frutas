@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/KinectCorteFrutas/FruitCutScene.unity
     guid: 01b9ddfb10db1054ba83b23426728cc8
+  - enabled: 1
+    path: Assets/KinectPosturas/PostureScene.unity
+    guid: 216b83642f878c540a379293ed82e433
   m_configObjects: {}
