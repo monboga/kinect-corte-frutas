@@ -10,11 +10,16 @@ using KinectCorteFrutas;
 public class KinectMenuController : MonoBehaviour
 {
     [Header("Configuracion de Interaccion")]
-    public Image handCursor; // arrastra aqui tu UI Image del cursor.
-    public Image handCursorFill; // relleno de cursor
-    public float dwellTime = 3.0f; // Tiempo en segundos para hacer "clic"
+    public Image handCursor; // Imagen UI que representa la mano.
+    public Image handCursorFill; // imagen adicional para mostrar progreso de seleccion
+    public float dwellTime = 3.0f; // Tiempo requerido para seleccionar el boton
     public float handSensitivity = 0.4f; // sensibilidad del movimiento (mas bajo = mas movimiento).
 
+    [Header("Feedback visual")]
+    public float hoverScale = 1.2f; // Escala cuando está sobre un botón
+    public Color normalColor = Color.white; // Color normal del cursor
+    public Color hoverColor = Color.yellow; // Color cuando está sobre boton
+    public Color activeColor = Color.green; // Color cuando esta seleccionado
 
     private BodySourceManager bodyManager;
     private Button lastButtonOver;
@@ -28,13 +33,11 @@ public class KinectMenuController : MonoBehaviour
         handCursor.gameObject.SetActive(false);
         handCursorFill.gameObject.SetActive(false);
 
-        // buscamos el gestor del Kinect en la escena.
-        // bodyManager = FindObjectOfType<BodySourceManager>();
-
-        // ahora
+        // Obtenemos la instancia dell BodySourceManager (singleton)
         bodyManager = BodySourceManager.instance;
 
-        handCursor.fillAmount = 0;
+        handCursorFill.fillAmount = 0;
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         
     }
@@ -80,7 +83,9 @@ public class KinectMenuController : MonoBehaviour
         float screenX = (handPosition.X + handSensitivity) / (handSensitivity * 2) * Screen.width;
         float screenY = ((handPosition.Y + handSensitivity) / (handSensitivity * 2)) * Screen.height;
 
+        // Actualizamos posicion del cursor
         handCursor.transform.position = new Vector2(screenX, screenY);
+        handCursorFill.transform.position = handCursor.transform.position;
 
         // logica para "hacer clic"
         CheckForButtonInteraction();
@@ -97,37 +102,43 @@ public class KinectMenuController : MonoBehaviour
         var results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
 
-        Button currentButton = null;
-        if (results.Count > 0)
-        {
-            // buscamos el primer boton en los resultados.
-            currentButton = results.Select(r => r.gameObject.GetComponent<Button>()).FirstOrDefault(b => b != null);
+        // Buscamos el primer boton en los resultados
+        Button currentButton = results.Select(r => r.gameObject.GetComponent<Button>()).FirstOrDefault(b => b != null);
 
-        }
 
         // si estamos sobre un boton
         if(currentButton != null)
         {
             if(lastButtonOver == currentButton)
             {
-                // si seguimos sobre el mismo boton,aumentamos el tiempo de espera.
-                currenDwellTime += Time.deltaTime;
-
-                // añadimos feedback visual
-                handCursor.fillAmount = currenDwellTime / dwellTime;
-
-                if(currenDwellTime >= dwellTime)
-                {
-                    // tiempo cumplido, hacemos clic
-                    currentButton.onClick.Invoke();
-                    ResetDwell();
-                }
-            }
-            else
-            {
-                // si es un boton nuevo, reiniciamos el contador
                 ResetDwell();
                 lastButtonOver = currentButton;
+
+                // Feedback visual inicial al entrar al boton
+                handCursor.transform.localScale = Vector3.one * hoverScale;
+                handCursor.color = hoverColor;
+            }
+
+            // Incrementamos ell tiempo de seleccion
+            currenDwellTime += Time.deltaTime;
+
+
+            // Actualizamos el fill amount (progreso de seleccion)
+            float fillAmount = currenDwellTime / dwellTime;
+            handCursorFill.fillAmount = fillAmount;
+
+            // cambiamos color gradualmente segun el progreso
+            handCursor.color = Color.Lerp(hoverColor, activeColor, fillAmount);
+
+            // Si se completo el tiempo de seleccion
+            if(currenDwellTime >= dwellTime)
+            {
+                // ejecutamo el clic del boton
+                currentButton.onClick.Invoke();
+                ResetDwell();
+
+                // pequeño feedback de confirmacion
+                StartCoroutine(SelectionFeedback());
             }
         }
         else // si no estamos sobre ningun boton
@@ -143,5 +154,17 @@ public class KinectMenuController : MonoBehaviour
         // reseteamos el feedback visual
         handCursor.fillAmount = 0;
 
+        // restauramos apariencia normal del cursor.
+        handCursor.transform.localScale = Vector3.one;
+        handCursor.color = normalColor;
+
+    }
+
+    private IEnumerator SelectionFeedback()
+    {
+        // pequeña animacion de confirmacion
+        handCursor.transform.localScale = Vector3.one * (hoverScale * 1.3f);
+        yield return new WaitForSeconds(0.1f);
+        handCursor.transform.localScale = Vector3.one * hoverScale;
     }
 }
