@@ -108,7 +108,8 @@ namespace KinectPosturas
                 }
             }
         }
-
+        /*
+        //original
         private GameObject CreateBodyObject(ulong id)
         {
             GameObject body = new GameObject("Body:" + id);
@@ -129,7 +130,46 @@ namespace KinectPosturas
 
             return body;
         }
+        */
+        //nuevo:
+        private GameObject CreateBodyObject(ulong id)
+        {
+            GameObject body = new GameObject("Body:" + id);
 
+            // Agregar el Rigidbody
+            Rigidbody rb = body.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.useGravity = false;
+
+            // Agregar el BoxCollider como "Is Trigger"
+            BoxCollider collider = body.AddComponent<BoxCollider>();
+            collider.isTrigger = true;
+            collider.size = new Vector3(1.5f, 2f, 0.5f); // Ajusta según el tamaño del cuerpo
+
+            // Agregar el script de detección de colisiones
+            body.AddComponent<PlayerCollisionDetector>();
+
+            // Crear los cubos de articulaciones
+            for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
+            {
+                GameObject jointObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+                LineRenderer lr = jointObj.AddComponent<LineRenderer>();
+                lr.positionCount = 2;
+                lr.material = BoneMaterial;
+                lr.startWidth = 0.05f;
+                lr.endWidth = 0.05f;
+
+                jointObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+                jointObj.name = jt.ToString();
+                jointObj.transform.parent = body.transform;
+
+                // Opcional: Desactiva collider del cubo individual
+                GameObject.Destroy(jointObj.GetComponent<Collider>());
+            }
+
+            return body;
+        }
         private void RefreshBodyObject(Kinect.Body body, GameObject bodyObject)
         {
             for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
