@@ -1297,6 +1297,10 @@ MonoBehaviour:
   handCursorFill: {fileID: 1440489292}
   dwellTime: 3
   handSensitivity: 0.4
+  hoverScale: 1.2
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &1305275991
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,7 +1410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23629406, g: 0.8490566, b: 0.32423824, a: 1}
+  m_Color: {r: 0.23629406, g: 0.8490566, b: 0.32423824, a: 0.5921569}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1420,7 +1424,7 @@ MonoBehaviour:
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1440489293
