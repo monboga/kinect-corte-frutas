@@ -99,6 +99,9 @@ public class FruitManager : MonoBehaviour
 
     public void Reset()
     {
+
+        StopAllCoroutines(); // Detiene la generacion actual de frutas.
+
         // destruimos cualquier fruta que haya quedado en pantalla
         DestroyAllFruits();
 
