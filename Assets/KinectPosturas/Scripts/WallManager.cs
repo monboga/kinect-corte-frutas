@@ -7,7 +7,7 @@ public class WallManager : MonoBehaviour
 
     // Posiciones fijas en X y Y, solo se moverán en Z
     private float fixedX = 0f;//-5.607446f
-    private float fixedY = 2f;//2.588154f //0
+    private float fixedY = 3f;//2.588154f //0
     private float startZ = -50f;//-40f;//50 
     private float endZ = 50f;//38//70f;//38  
 
