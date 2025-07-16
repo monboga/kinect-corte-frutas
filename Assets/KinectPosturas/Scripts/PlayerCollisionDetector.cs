@@ -6,6 +6,7 @@ public class PlayerCollisionDetector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Entro en contacto con: " + other.name);
         if (other.CompareTag("WallPart"))//other.gameObject.name.Contains("NewWall")
         {
             collisionCount++;
@@ -16,8 +17,8 @@ public class PlayerCollisionDetector : MonoBehaviour
     void OnGUI()
     {
         GUIStyle style = new GUIStyle();
-        style.fontSize = 40;
+        style.fontSize = 80;//40
         style.normal.textColor = Color.red;
-        GUI.Label(new Rect(20, 20, 500, 100), "Toques: " + collisionCount, style);
+        GUI.Label(new Rect(40, 40, 1000, 200), "Toques: " + collisionCount, style);//20, 20, 500, 100
     }
 }
