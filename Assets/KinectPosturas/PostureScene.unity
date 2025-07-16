@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 49021978}
   - component: {fileID: 49021977}
   m_Layer: 0
-  m_Name: CubeHeight (2)
+  m_Name: CubeRightWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 93249432}
   - component: {fileID: 93249431}
   m_Layer: 0
-  m_Name: CubeHeight (1)
+  m_Name: CubeLeftWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -364,6 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BoneMaterial: {fileID: 2100000, guid: 9b3fb76c6416c79499da403deefba6b5, type: 2}
   BodySourceManager: {fileID: 1698423884}
+  jointSmoothFactor: 0.5
 --- !u!1 &126433416
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,7 +476,7 @@ GameObject:
   - component: {fileID: 196953318}
   - component: {fileID: 196953317}
   m_Layer: 0
-  m_Name: CubeHeight
+  m_Name: CubeCenterWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -859,7 +860,7 @@ GameObject:
   - component: {fileID: 252811997}
   - component: {fileID: 252811996}
   m_Layer: 0
-  m_Name: CubeHeight (2)
+  m_Name: CubeRightWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1056,7 +1057,7 @@ GameObject:
   - component: {fileID: 328202916}
   - component: {fileID: 328202915}
   m_Layer: 0
-  m_Name: CubeHeight
+  m_Name: CubeCenterWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1221,7 +1222,7 @@ GameObject:
   - component: {fileID: 624825207}
   - component: {fileID: 624825206}
   m_Layer: 0
-  m_Name: CubeHeight (1)
+  m_Name: CubeLeftWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1323,7 +1324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &657102012
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1395,7 +1396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657102011}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.5, y: -7, z: 14.74}
+  m_LocalPosition: {x: 7.18, y: -7, z: 25.16}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1760,7 +1761,7 @@ GameObject:
   - component: {fileID: 818789522}
   - component: {fileID: 818789521}
   m_Layer: 0
-  m_Name: CubeHeight (1)
+  m_Name: CubeLeftWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2061,7 +2062,7 @@ GameObject:
   - component: {fileID: 1180676436}
   - component: {fileID: 1180676435}
   m_Layer: 0
-  m_Name: CubeHeight
+  m_Name: CubeCenterWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2162,7 +2163,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1340965255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2752,7 +2753,7 @@ GameObject:
   - component: {fileID: 1662501624}
   - component: {fileID: 1662501623}
   m_Layer: 0
-  m_Name: CubeHeight (1)
+  m_Name: CubeLeftWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3035,7 +3036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1766975578
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3127,7 +3128,7 @@ GameObject:
   - component: {fileID: 1773693684}
   - component: {fileID: 1773693683}
   m_Layer: 0
-  m_Name: CubeHeight (2)
+  m_Name: CubeRightWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3224,7 +3225,7 @@ GameObject:
   - component: {fileID: 1887922629}
   - component: {fileID: 1887922628}
   m_Layer: 0
-  m_Name: CubeHeight (2)
+  m_Name: CubeRightWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3403,7 +3404,7 @@ GameObject:
   - component: {fileID: 2020201171}
   - component: {fileID: 2020201170}
   m_Layer: 0
-  m_Name: CubeHeight
+  m_Name: CubeCenterWall
   m_TagString: WallPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

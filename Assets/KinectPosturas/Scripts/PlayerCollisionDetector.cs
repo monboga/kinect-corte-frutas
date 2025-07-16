@@ -6,11 +6,11 @@ public class PlayerCollisionDetector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Entro en contacto con: " + other.name);
         if (other.CompareTag("WallPart"))//other.gameObject.name.Contains("NewWall")
         {
             collisionCount++;
             Debug.Log("Toque detectado con muro. Total de toques: " + collisionCount);
-            Debug.Log(other.name);
         }
     }
 
