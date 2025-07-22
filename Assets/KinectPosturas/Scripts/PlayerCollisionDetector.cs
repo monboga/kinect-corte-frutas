@@ -11,6 +11,7 @@ public class PlayerCollisionDetector : MonoBehaviour
         {
             collisionCount++;
             Debug.Log("Toque detectado con muro. Total de toques: " + collisionCount);
+            //Debug.Log("COLISION detectada en: " + gameObject.name + " con " + other.name);
         }
     }
 
