@@ -15,6 +15,7 @@ public class PlayerCollisionDetector : MonoBehaviour
     [Header("UI Settings")]
     public int fontSize = 40;
     public Color textColor = Color.red;
+    private int collisionCount;
 
     void OnTriggerEnter(Collider other)
     {

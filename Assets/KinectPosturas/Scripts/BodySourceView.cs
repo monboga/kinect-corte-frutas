@@ -4,40 +4,44 @@ using Kinect = Windows.Kinect;
 
 namespace KinectPosturas
 {
+    public class BodySourceView : MonoBehaviour
+    {
+        // CORRECCIÓN: Variables públicas para asignar desde el Inspector de Unity.
+        public BodySourceManager _BodyManager;
+        public Material BoneMaterial;
+        public GameObject JointPrefab; // Un prefab para la articulación, ej: una esfera pequeña.
 
         [Range(0f, 1f)]
         public float jointSmoothFactor = 0.5f;
+        public float desiredHeight = 1.7f; // Altura deseada del avatar en metros.
 
+        // Diccionarios para gestionar los cuerpos y sus datos
         private Dictionary<ulong, GameObject> _Bodies = new Dictionary<ulong, GameObject>();
-        private BodySourceManager _BodyManager;
         private Dictionary<ulong, float> _BodyScaleFactors = new Dictionary<ulong, float>();
 
-        private Dictionary<Kinect.JointType, Kinect.JointType> _BoneMap = new Dictionary<Kinect.JointType, Kinect.JointType>()
+        // Mapa de huesos que conecta las articulaciones
+        private readonly Dictionary<Kinect.JointType, Kinect.JointType> _BoneMap = new Dictionary<Kinect.JointType, Kinect.JointType>()
         {
             { Kinect.JointType.FootLeft, Kinect.JointType.AnkleLeft },
             { Kinect.JointType.AnkleLeft, Kinect.JointType.KneeLeft },
             { Kinect.JointType.KneeLeft, Kinect.JointType.HipLeft },
             { Kinect.JointType.HipLeft, Kinect.JointType.SpineBase },
-
             { Kinect.JointType.FootRight, Kinect.JointType.AnkleRight },
             { Kinect.JointType.AnkleRight, Kinect.JointType.KneeRight },
             { Kinect.JointType.KneeRight, Kinect.JointType.HipRight },
             { Kinect.JointType.HipRight, Kinect.JointType.SpineBase },
-
             { Kinect.JointType.HandTipLeft, Kinect.JointType.HandLeft },
             { Kinect.JointType.ThumbLeft, Kinect.JointType.HandLeft },
             { Kinect.JointType.HandLeft, Kinect.JointType.WristLeft },
             { Kinect.JointType.WristLeft, Kinect.JointType.ElbowLeft },
             { Kinect.JointType.ElbowLeft, Kinect.JointType.ShoulderLeft },
             { Kinect.JointType.ShoulderLeft, Kinect.JointType.SpineShoulder },
-
             { Kinect.JointType.HandTipRight, Kinect.JointType.HandRight },
             { Kinect.JointType.ThumbRight, Kinect.JointType.HandRight },
             { Kinect.JointType.HandRight, Kinect.JointType.WristRight },
             { Kinect.JointType.WristRight, Kinect.JointType.ElbowRight },
             { Kinect.JointType.ElbowRight, Kinect.JointType.ShoulderRight },
             { Kinect.JointType.ShoulderRight, Kinect.JointType.SpineShoulder },
-
             { Kinect.JointType.SpineBase, Kinect.JointType.SpineMid },
             { Kinect.JointType.SpineMid, Kinect.JointType.SpineShoulder },
             { Kinect.JointType.SpineShoulder, Kinect.JointType.Neck },
@@ -46,131 +50,79 @@ namespace KinectPosturas
 
         void Update()
         {
-            if (BodySourceManager == null) return;
-
-            _BodyManager = BodySourceManager.GetComponent<BodySourceManager>();
-            if (_BodyManager == null) return;
+            // CORRECCIÓN: Comprobación de la variable _BodyManager asignada
+            if (_BodyManager == null)
+            {
+                Debug.LogError("BodySourceManager no está asignado.");
+                return;
+            }
 
             Kinect.Body[] data = _BodyManager.GetData();
             if (data == null) return;
 
+            // CORRECCIÓN: LÓGICA REESTRUCTURADA
+            // 1. Identificar todos los cuerpos que están siendo rastreados en este frame.
             List<ulong> trackedIds = new List<ulong>();
             foreach (var body in data)
             {
                 if (body != null && body.IsTracked)
                 {
-                    if (!trackedIds.Contains(trackingId))
-                    {
-                        Debug.Log($"Eliminando cuerpo con ID: {trackingId}");
-                        Destroy(_Bodies[trackingId]);
-                        _Bodies.Remove(trackingId);
-
-                        // Limpiar el factor de escala guardado
-                        if (_BodyScaleFactors.ContainsKey(trackingId))
-                        {
-                            _BodyScaleFactors.Remove(trackingId);
-                        }
-                    }
+                    trackedIds.Add(body.TrackingId);
                 }
+            }
 
+            // 2. Eliminar los GameObjects de los cuerpos que ya no se rastrean.
             List<ulong> knownIds = new List<ulong>(_Bodies.Keys);
             foreach (ulong trackingId in knownIds)
             {
-                // Crear el GameObject principal del cuerpo
-                GameObject body = new GameObject("Body:" + id);
-
-                // Agregar Rigidbody configurado para Kinematic
-                Rigidbody rb = body.AddComponent<Rigidbody>();
-                rb.isKinematic = true; // No afectado por física
-                rb.useGravity = false; // Sin gravedad
-
-                // Crear sistema de colliders múltiples si está activado
-                if (enableMultipleColliders)
+                if (!trackedIds.Contains(trackingId))
                 {
+                    Debug.Log($"Eliminando cuerpo con ID: {trackingId}");
                     Destroy(_Bodies[trackingId]);
                     _Bodies.Remove(trackingId);
-                    _BodyScaleFactors.Remove(trackingId);
+                    if (_BodyScaleFactors.ContainsKey(trackingId))
+                    {
+                        _BodyScaleFactors.Remove(trackingId);
+                    }
                 }
-                else
-                {
-                    // Crear collider principal único
-                    CreateMainCollider(body);
-                }
-
-                // Agregar el script de detección de colisiones
-                body.AddComponent<PlayerCollisionDetector>();
-
-                // Crear los cubos de articulaciones para visualización
-                CreateJointObjects(body);
-
-                return body;
             }
 
-            private void CreateMainCollider(GameObject body)
+            // 3. Crear o actualizar los GameObjects para los cuerpos rastreados.
+            foreach (var body in data)
             {
-                if (body == null || !body.IsTracked) continue;
-
-                if (!_Bodies.ContainsKey(body.TrackingId))
+                if (body != null && body.IsTracked)
                 {
-                    _Bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
+                    // Si es un cuerpo nuevo, crea su GameObject
+                    if (!_Bodies.ContainsKey(body.TrackingId))
+                    {
+                        _Bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
+                    }
+                    // Actualiza la posición y rotación del cuerpo existente
+                    RefreshBodyObject(body, _Bodies[body.TrackingId]);
                 }
-
-                RefreshBodyObject(body, _Bodies[body.TrackingId]);
             }
         }
 
+        // CORRECCIÓN: Método movido fuera de Update y limpiado
         private GameObject CreateBodyObject(ulong id)
         {
             GameObject body = new GameObject("Body:" + id);
 
-            // Agregar el Rigidbody general del cuerpo
+            // Agregar componentes de física si se necesitan (ej: para colisiones)
             Rigidbody rb = body.AddComponent<Rigidbody>();
             rb.isKinematic = true;
             rb.useGravity = false;
 
-            // Agregar el BoxCollider general
-            BoxCollider collider = body.AddComponent<BoxCollider>();
-            collider.isTrigger = true;
-            collider.size = new Vector3(1.5f, 2f, 0.5f);
-
-            // Agregar script de detección general si lo necesitas/////////////////////////
-            //body.AddComponent<PlayerCollisionDetector>();
-
-            // Verificar existencia de la capa "Joint"
-            int jointLayer = LayerMask.NameToLayer("Joint");
-            if (jointLayer == -1)
+            // Crear un objeto visual para cada articulación
+            for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
             {
-                Debug.LogWarning("La capa 'Joint' no existe. Ve a Edit > Project Settings > Tags and Layers para crearla.");
-            }
-
-                // Calcular factor de escala con protección mínima
-                float scaleFactor = realHeight > 0.1f ? desiredHeight / realHeight : 1f;
+                // Usa un prefab para que sea más fácil de configurar visualmente
+                GameObject jointObj = Instantiate(JointPrefab);
 
                 jointObj.name = jt.ToString();
-                jointObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
                 jointObj.transform.parent = body.transform;
 
-                // Asignar layer "Joint" si existe
-                if (jointLayer != -1)
-                {
-                    jointObj.layer = jointLayer;
-                }
-
-                // Eliminar collider primitivo original
-                GameObject.Destroy(jointObj.GetComponent<Collider>());
-
-                // Añadir collider y rigidbody para detección de colisiones individuales
-                BoxCollider jointCollider = jointObj.AddComponent<BoxCollider>();
-                jointCollider.isTrigger = true;
-
-                Rigidbody jointRb = jointObj.AddComponent<Rigidbody>();
-                jointRb.isKinematic = true;
-                jointRb.useGravity = false;
-
-                // Agregar script de colisión por articulación
-                jointObj.AddComponent<JointCollisionDetector>();
-
-                // Agregar línea para dibujar huesos
+                // Añadir LineRenderer para dibujar los huesos
                 LineRenderer lr = jointObj.AddComponent<LineRenderer>();
                 lr.positionCount = 2;
                 lr.material = BoneMaterial;
@@ -181,83 +133,74 @@ namespace KinectPosturas
             return body;
         }
 
+        // CORRECCIÓN: Método movido fuera de Update y limpiado
         private void RefreshBodyObject(Kinect.Body body, GameObject bodyObject)
         {
+            // Calcular o recuperar el factor de escala para normalizar la altura del avatar
             float scaleFactor;
-
-            if (_BodyScaleFactors.ContainsKey(body.TrackingId))
-            {
-                scaleFactor = _BodyScaleFactors[body.TrackingId];
-            }
-            else
+            if (!_BodyScaleFactors.TryGetValue(body.TrackingId, out scaleFactor))
             {
                 var head = body.Joints[Kinect.JointType.Head].Position;
-                var footLeft = body.Joints[Kinect.JointType.FootLeft].Position;
-                var footRight = body.Joints[Kinect.JointType.FootRight].Position;
+                var foot = body.Joints[Kinect.JointType.FootLeft].Position; // Usar un pie como referencia
+                float realHeight = Mathf.Abs(head.Y - foot.Y);
 
-                float footY = Mathf.Min(footLeft.Y, footRight.Y);
-                float realHeight = head.Y - footY;
-                float desiredHeight = 1.7f;
-
-                scaleFactor = realHeight > 0.1f ? desiredHeight / realHeight : 1f;
+                scaleFactor = (realHeight > 0.1f) ? desiredHeight / realHeight : 1f;
                 _BodyScaleFactors[body.TrackingId] = scaleFactor;
             }
 
+            // Actualizar la posición del objeto principal del cuerpo
             var baseJoint = body.Joints[Kinect.JointType.SpineBase];
-            Vector3 bodyWorldPos = new Vector3(
-                -baseJoint.Position.X * 10f * scaleFactor,
-                baseJoint.Position.Y * 10f * scaleFactor,
-                baseJoint.Position.Z * 10f * scaleFactor
-            );
+            Vector3 bodyWorldPos = GetScaledWorldPosition(baseJoint, scaleFactor);
             bodyObject.transform.position = bodyWorldPos;
 
+            // Actualizar cada articulación
             for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
             {
-                Kinect.Joint sourceJoint = body.Joints[jt];
-                Kinect.Joint? targetJoint = _BoneMap.ContainsKey(jt) ? (Kinect.Joint?)body.Joints[_BoneMap[jt]] : null;
-
                 Transform jointObj = bodyObject.transform.Find(jt.ToString());
                 if (jointObj == null) continue;
 
-                Vector3 currentPos = jointObj.localPosition;
-                Vector3 targetPos = GetScaledLocalPositionFromJoint(sourceJoint, baseJoint, scaleFactor);
-                jointObj.localPosition = Vector3.Lerp(currentPos, targetPos, jointSmoothFactor);
+                Kinect.Joint sourceJoint = body.Joints[jt];
 
+                // Interpolar la posición para un movimiento más suave
+                Vector3 targetPos = GetScaledLocalPosition(sourceJoint, baseJoint, scaleFactor);
+                jointObj.localPosition = Vector3.Lerp(jointObj.localPosition, targetPos, jointSmoothFactor);
+
+                // Actualizar el LineRenderer para dibujar el hueso
                 LineRenderer lr = jointObj.GetComponent<LineRenderer>();
-                if (lr != null && targetJoint.HasValue)
+                if (lr != null && _BoneMap.ContainsKey(jt))
                 {
-                    Vector3 targetJointPos = GetScaledLocalPositionFromJoint(targetJoint.Value, baseJoint, scaleFactor);
+                    Kinect.Joint targetJoint = body.Joints[_BoneMap[jt]];
+                    Vector3 targetJointPos = GetScaledLocalPosition(targetJoint, baseJoint, scaleFactor);
+
                     lr.SetPosition(0, jointObj.localPosition);
                     lr.SetPosition(1, targetJointPos);
-                    lr.SetColors(GetColorForState(sourceJoint.TrackingState), GetColorForState(targetJoint.Value.TrackingState));
+                    lr.startColor = GetColorForState(sourceJoint.TrackingState);
+                    lr.endColor = GetColorForState(targetJoint.TrackingState);
                 }
                 else if (lr != null)
                 {
-                    if (childColliders[i] != null)
-                    {
-                        BoxCollider collider = childColliders[i].GetComponent<BoxCollider>();
-                        if (collider != null)
-                        {
-                            Vector3 currentSize = collider.size;
-                            Vector3 targetSize = baseSizes[i] * scaleFactor;
-                            collider.size = Vector3.Lerp(currentSize, targetSize, jointSmoothFactor);
-
-                            Vector3 currentCenter = collider.center;
-                            Vector3 targetCenter = baseCenters[i] * scaleFactor;
-                            collider.center = Vector3.Lerp(currentCenter, targetCenter, jointSmoothFactor);
-                        }
-                    }
+                    // Si la articulación no tiene un hueso conectado, oculta la línea
+                    lr.enabled = false;
                 }
             }
+        }
 
-        private static Vector3 GetScaledLocalPositionFromJoint(Kinect.Joint joint, Kinect.Joint reference, float scale)
+        // CORRECCIÓN: Funciones de ayuda limpiadas y simplificadas
+        private Vector3 GetScaledWorldPosition(Kinect.Joint joint, float scale)
         {
+            // Invierte el eje X para un efecto espejo y aplica escala.
+            return new Vector3(-joint.Position.X * 10f * scale, joint.Position.Y * 10f * scale, joint.Position.Z * 10f * scale);
+        }
+
+        private Vector3 GetScaledLocalPosition(Kinect.Joint joint, Kinect.Joint reference, float scale)
+        {
+            // Calcula la posición relativa a la articulación base (SpineBase)
             Vector3 jointPos = new Vector3(-joint.Position.X, joint.Position.Y, joint.Position.Z);
             Vector3 refPos = new Vector3(-reference.Position.X, reference.Position.Y, reference.Position.Z);
             return (jointPos - refPos) * 10f * scale;
         }
 
-        private static Color GetColorForState(Kinect.TrackingState state)
+        private Color GetColorForState(Kinect.TrackingState state)
         {
             switch (state)
             {
