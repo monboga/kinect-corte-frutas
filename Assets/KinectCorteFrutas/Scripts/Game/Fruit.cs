@@ -39,37 +39,32 @@ public class Fruit : MonoBehaviour
 
     private void Update()
     {
-        if (isCut) return; // si la frita ya fue cortada, no la movemos ni la rotamos.
+        if (isCut) return;
 
-        // logica de rebote
-        // comprobar si ha llegado a los bordes horizontales.
-        if(transform.position.x > mTopRight.x || transform.position.x < mBottomLeft.x)
+        // Lógica de rebote con los nuevos límites (mBottomLeft y mTopRight)
+        if (transform.position.x > mTopRight.x || transform.position.x < mBottomLeft.x)
         {
-            // invertimos la direccion en el eje x
-            mMovementDirection.x *= -1;
+            // Invertimos dirección en X y añadimos un pequeño aleatorio para variar
+            mMovementDirection.x = -mMovementDirection.x * Random.Range(0.9f, 1.1f);
         }
 
-        // comprobamos si ha llegado a los bordes verticales
-        if(transform.position.y > mTopRight.y || transform.position.y < mBottomLeft.y)
+        if (transform.position.y > mTopRight.y || transform.position.y < mBottomLeft.y)
         {
-            // invertimos la direccion en el eje Y
-            mMovementDirection.y *= -1;
+            // Invertimos dirección en Y y añadimos un pequeño aleatorio
+            mMovementDirection.y = -mMovementDirection.y * Random.Range(0.9f, 1.1f);
         }
 
-        // Clamping para asegurar que nunca se quede atascada fuera de los limites
+        // Aseguramos que la fruta no salga de la zona de rebote
         transform.position = new Vector3(
-                Mathf.Clamp(transform.position.x, mBottomLeft.x, mTopRight.x),
-                Mathf.Clamp(transform.position.y, mBottomLeft.y, mTopRight.y),
-                transform.position.z
-                );
+            Mathf.Clamp(transform.position.x, mBottomLeft.x, mTopRight.x),
+            Mathf.Clamp(transform.position.y, mBottomLeft.y, mTopRight.y),
+            transform.position.z
+        );
 
-        // usamos nuestra nueva varibale en lugar de un numero fijo
+        // Movimiento con la velocidad actual
         transform.position += mMovementDirection * Time.deltaTime * moveSpeed;
 
-        // movement
-        transform.position += mMovementDirection * Time.deltaTime * 0.35f;
-
-        // rotation
+        // Rotación basada en la dirección
         transform.Rotate(Vector3.forward * Time.deltaTime * mMovementDirection.x * 20, Space.Self);
     }
 

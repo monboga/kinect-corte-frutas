@@ -4,10 +4,6 @@ using Kinect = Windows.Kinect;
 
 namespace KinectPosturas
 {
-    public class BodySourceView : MonoBehaviour
-    {
-        public Material BoneMaterial;
-        public GameObject BodySourceManager;
 
         [Range(0f, 1f)]
         public float jointSmoothFactor = 0.5f;
@@ -63,22 +59,54 @@ namespace KinectPosturas
             {
                 if (body != null && body.IsTracked)
                 {
-                    trackedIds.Add(body.TrackingId);
+                    if (!trackedIds.Contains(trackingId))
+                    {
+                        Debug.Log($"Eliminando cuerpo con ID: {trackingId}");
+                        Destroy(_Bodies[trackingId]);
+                        _Bodies.Remove(trackingId);
+
+                        // Limpiar el factor de escala guardado
+                        if (_BodyScaleFactors.ContainsKey(trackingId))
+                        {
+                            _BodyScaleFactors.Remove(trackingId);
+                        }
+                    }
                 }
-            }
 
             List<ulong> knownIds = new List<ulong>(_Bodies.Keys);
             foreach (ulong trackingId in knownIds)
             {
-                if (!trackedIds.Contains(trackingId))
+                // Crear el GameObject principal del cuerpo
+                GameObject body = new GameObject("Body:" + id);
+
+                // Agregar Rigidbody configurado para Kinematic
+                Rigidbody rb = body.AddComponent<Rigidbody>();
+                rb.isKinematic = true; // No afectado por física
+                rb.useGravity = false; // Sin gravedad
+
+                // Crear sistema de colliders múltiples si está activado
+                if (enableMultipleColliders)
                 {
                     Destroy(_Bodies[trackingId]);
                     _Bodies.Remove(trackingId);
                     _BodyScaleFactors.Remove(trackingId);
                 }
+                else
+                {
+                    // Crear collider principal único
+                    CreateMainCollider(body);
+                }
+
+                // Agregar el script de detección de colisiones
+                body.AddComponent<PlayerCollisionDetector>();
+
+                // Crear los cubos de articulaciones para visualización
+                CreateJointObjects(body);
+
+                return body;
             }
 
-            foreach (var body in data)
+            private void CreateMainCollider(GameObject body)
             {
                 if (body == null || !body.IsTracked) continue;
 
@@ -115,10 +143,8 @@ namespace KinectPosturas
                 Debug.LogWarning("La capa 'Joint' no existe. Ve a Edit > Project Settings > Tags and Layers para crearla.");
             }
 
-            // Crear los cubos de articulaciones
-            for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
-            {
-                GameObject jointObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                // Calcular factor de escala con protección mínima
+                float scaleFactor = realHeight > 0.1f ? desiredHeight / realHeight : 1f;
 
                 jointObj.name = jt.ToString();
                 jointObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
@@ -207,10 +233,22 @@ namespace KinectPosturas
                 }
                 else if (lr != null)
                 {
-                    lr.enabled = false;
+                    if (childColliders[i] != null)
+                    {
+                        BoxCollider collider = childColliders[i].GetComponent<BoxCollider>();
+                        if (collider != null)
+                        {
+                            Vector3 currentSize = collider.size;
+                            Vector3 targetSize = baseSizes[i] * scaleFactor;
+                            collider.size = Vector3.Lerp(currentSize, targetSize, jointSmoothFactor);
+
+                            Vector3 currentCenter = collider.center;
+                            Vector3 targetCenter = baseCenters[i] * scaleFactor;
+                            collider.center = Vector3.Lerp(currentCenter, targetCenter, jointSmoothFactor);
+                        }
+                    }
                 }
             }
-        }
 
         private static Vector3 GetScaledLocalPositionFromJoint(Kinect.Joint joint, Kinect.Joint reference, float scale)
         {
