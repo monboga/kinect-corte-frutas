@@ -365,6 +365,12 @@ MonoBehaviour:
   BoneMaterial: {fileID: 2100000, guid: 9b3fb76c6416c79499da403deefba6b5, type: 2}
   BodySourceManager: {fileID: 1698423884}
   jointSmoothFactor: 0.5
+  enableMultipleColliders: 1
+  showDebugColliders: 1
+  mainColliderSize: {x: 1.5, y: 2, z: 0.5}
+  headColliderSize: {x: 0.8, y: 0.8, z: 0.5}
+  armColliderSize: {x: 1.2, y: 0.3, z: 0.3}
+  legColliderSize: {x: 0.4, y: 1.5, z: 0.3}
 --- !u!1 &126433416
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,6 +693,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8439bb102754547b96df751515242a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableDebugMode: 1
+  totalCollisions: 0
+  topWallCollisions: 0
+  centerWallCollisions: 0
+  leftWallCollisions: 0
+  rightWallCollisions: 0
+  fontSize: 40
+  textColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &236736064
 GameObject:
   m_ObjectHideFlags: 0
