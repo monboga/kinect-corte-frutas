@@ -6,8 +6,10 @@ namespace KinectPosturas
 {
     public class BodySourceView : MonoBehaviour
     {
+        // CORRECCIÓN: Variables públicas para asignar desde el Inspector de Unity.
+        public BodySourceManager _BodyManager;
         public Material BoneMaterial;
-        public GameObject BodySourceManager;
+        public GameObject JointPrefab; // Un prefab para la articulación, ej: una esfera pequeña.
 
         [Range(0f, 1f)]
         public float jointSmoothFactor = 0.5f;
@@ -22,26 +24,22 @@ namespace KinectPosturas
             { Kinect.JointType.AnkleLeft, Kinect.JointType.KneeLeft },
             { Kinect.JointType.KneeLeft, Kinect.JointType.HipLeft },
             { Kinect.JointType.HipLeft, Kinect.JointType.SpineBase },
-
             { Kinect.JointType.FootRight, Kinect.JointType.AnkleRight },
             { Kinect.JointType.AnkleRight, Kinect.JointType.KneeRight },
             { Kinect.JointType.KneeRight, Kinect.JointType.HipRight },
             { Kinect.JointType.HipRight, Kinect.JointType.SpineBase },
-
             { Kinect.JointType.HandTipLeft, Kinect.JointType.HandLeft },
             { Kinect.JointType.ThumbLeft, Kinect.JointType.HandLeft },
             { Kinect.JointType.HandLeft, Kinect.JointType.WristLeft },
             { Kinect.JointType.WristLeft, Kinect.JointType.ElbowLeft },
             { Kinect.JointType.ElbowLeft, Kinect.JointType.ShoulderLeft },
             { Kinect.JointType.ShoulderLeft, Kinect.JointType.SpineShoulder },
-
             { Kinect.JointType.HandTipRight, Kinect.JointType.HandRight },
             { Kinect.JointType.ThumbRight, Kinect.JointType.HandRight },
             { Kinect.JointType.HandRight, Kinect.JointType.WristRight },
             { Kinect.JointType.WristRight, Kinect.JointType.ElbowRight },
             { Kinect.JointType.ElbowRight, Kinect.JointType.ShoulderRight },
             { Kinect.JointType.ShoulderRight, Kinect.JointType.SpineShoulder },
-
             { Kinect.JointType.SpineBase, Kinect.JointType.SpineMid },
             { Kinect.JointType.SpineMid, Kinect.JointType.SpineShoulder },
             { Kinect.JointType.SpineShoulder, Kinect.JointType.Neck },
@@ -58,6 +56,8 @@ namespace KinectPosturas
             Kinect.Body[] data = _BodyManager.GetData();
             if (data == null) return;
 
+            // CORRECCIÓN: LÓGICA REESTRUCTURADA
+            // 1. Identificar todos los cuerpos que están siendo rastreados en este frame.
             List<ulong> trackedIds = new List<ulong>();
             foreach (var body in data)
             {
@@ -67,17 +67,20 @@ namespace KinectPosturas
                 }
             }
 
+            // 2. Eliminar los GameObjects de los cuerpos que ya no se rastrean.
             List<ulong> knownIds = new List<ulong>(_Bodies.Keys);
             foreach (ulong trackingId in knownIds)
             {
                 if (!trackedIds.Contains(trackingId))
                 {
+                    Debug.Log($"Eliminando cuerpo con ID: {trackingId}");
                     Destroy(_Bodies[trackingId]);
                     _Bodies.Remove(trackingId);
                     _BodyScaleFactors.Remove(trackingId);
                 }
             }
 
+            // 3. Crear o actualizar los GameObjects para los cuerpos rastreados.
             foreach (var body in data)
             {
                 if (body == null || !body.IsTracked) continue;
@@ -90,7 +93,6 @@ namespace KinectPosturas
                 RefreshBodyObject(body, _Bodies[body.TrackingId]);
             }
         }
-
         private GameObject CreateBodyObject(ulong id)
         {
             GameObject body = new GameObject("Body:" + id);
@@ -118,7 +120,8 @@ namespace KinectPosturas
             // Crear los cubos de articulaciones
             for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
             {
-                GameObject jointObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                // Usa un prefab para que sea más fácil de configurar visualmente
+                GameObject jointObj = Instantiate(JointPrefab);
 
                 jointObj.name = jt.ToString();
                 jointObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
@@ -190,6 +193,9 @@ namespace KinectPosturas
                 Kinect.Joint sourceJoint = body.Joints[jt];
                 Kinect.Joint? targetJoint = _BoneMap.ContainsKey(jt) ? (Kinect.Joint?)body.Joints[_BoneMap[jt]] : null;
 
+            // Actualizar cada articulación
+            for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
+            {
                 Transform jointObj = bodyObject.transform.Find(jt.ToString());
                 if (jointObj == null) continue;
 
@@ -197,6 +203,11 @@ namespace KinectPosturas
                 Vector3 targetPos = GetScaledLocalPositionFromJoint(sourceJoint, baseJoint, scaleFactor);
                 jointObj.localPosition = Vector3.Lerp(currentPos, targetPos, jointSmoothFactor);
 
+                // Interpolar la posición para un movimiento más suave
+                Vector3 targetPos = GetScaledLocalPosition(sourceJoint, baseJoint, scaleFactor);
+                jointObj.localPosition = Vector3.Lerp(jointObj.localPosition, targetPos, jointSmoothFactor);
+
+                // Actualizar el LineRenderer para dibujar el hueso
                 LineRenderer lr = jointObj.GetComponent<LineRenderer>();
                 if (lr != null && targetJoint.HasValue)
                 {
@@ -207,6 +218,7 @@ namespace KinectPosturas
                 }
                 else if (lr != null)
                 {
+                    // Si la articulación no tiene un hueso conectado, oculta la línea
                     lr.enabled = false;
                 }
             }
@@ -228,5 +240,6 @@ namespace KinectPosturas
                 default: return Color.black;
             }
         }
+
     }
 }
