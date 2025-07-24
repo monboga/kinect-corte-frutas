@@ -142,7 +142,9 @@ namespace KinectPosturas
                 jointRb.useGravity = false;
 
                 // Agregar script de colisión por articulación
-                jointObj.AddComponent<JointCollisionDetector>();
+                //jointObj.AddComponent<JointCollisionDetector>();///////////
+                JointCollisionDetector detector = jointObj.AddComponent<JointCollisionDetector>();
+                detector.region = GetRegionForJoint(jt);
 
                 // Agregar línea para dibujar huesos
                 LineRenderer lr = jointObj.AddComponent<LineRenderer>();
@@ -226,6 +228,47 @@ namespace KinectPosturas
                 case Kinect.TrackingState.Tracked: return Color.green;
                 case Kinect.TrackingState.Inferred: return Color.red;
                 default: return Color.black;
+            }
+        }
+
+        private BodyRegion GetRegionForJoint(Kinect.JointType jt)
+        {
+            switch (jt)
+            {
+                case Kinect.JointType.HandLeft:
+                case Kinect.JointType.WristLeft:
+                case Kinect.JointType.ElbowLeft:
+                case Kinect.JointType.ShoulderLeft:
+                case Kinect.JointType.ThumbLeft:
+                case Kinect.JointType.HandTipLeft:
+                    return BodyRegion.LeftArm;
+
+                case Kinect.JointType.HandRight:
+                case Kinect.JointType.WristRight:
+                case Kinect.JointType.ElbowRight:
+                case Kinect.JointType.ShoulderRight:
+                case Kinect.JointType.ThumbRight:
+                case Kinect.JointType.HandTipRight:
+                    return BodyRegion.RightArm;
+
+                case Kinect.JointType.FootLeft:
+                case Kinect.JointType.AnkleLeft:
+                case Kinect.JointType.KneeLeft:
+                case Kinect.JointType.HipLeft:
+                    return BodyRegion.LeftLeg;
+
+                case Kinect.JointType.FootRight:
+                case Kinect.JointType.AnkleRight:
+                case Kinect.JointType.KneeRight:
+                case Kinect.JointType.HipRight:
+                    return BodyRegion.RightLeg;
+
+                case Kinect.JointType.Head:
+                case Kinect.JointType.Neck:
+                    return BodyRegion.Head;
+
+                default:
+                    return BodyRegion.Torso;
             }
         }
     }
