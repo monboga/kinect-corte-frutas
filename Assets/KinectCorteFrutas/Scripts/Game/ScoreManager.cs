@@ -155,7 +155,7 @@ public class ScoreManager : MonoBehaviour
             {
                 timeRemaining = 0;
                 DisplayTime(timeRemaining);
-                EndGame(false);
+                EndGame();
             }
         }
 
