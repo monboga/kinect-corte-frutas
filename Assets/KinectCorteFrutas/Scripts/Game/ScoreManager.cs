@@ -202,6 +202,11 @@ public class ScoreManager : MonoBehaviour
     // metodo que maneja la finalizacion del nivel
     private IEnumerator HandleLevelCompletion()
     {
+        // se reproduce el sonido de victoria
+        if(AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySFX(AudioManager.instance.fruitCutCompletedSound);
+        }
         // Pausamos brevemente el juego para feedback
         Time.timeScale = 0.5f; // reduce la velocidad del juego momentaneamente
 
@@ -229,6 +234,15 @@ public class ScoreManager : MonoBehaviour
 
     void EndGame(bool hasWon)
     {
+        // aqui reproducimos el sonido de game over
+        if (AudioManager.instance != null)
+        {
+            // solo reproducimos el sonido de "Game Over" si el jugador perdio
+            if(!hasWon)
+            {
+                AudioManager.instance.PlaySFX(AudioManager.instance.fruitGameOverSound);
+            }
+        }
         currentState = GameState.GameOver;
         backToMenuButtonGameOver.gameObject.SetActive(true);
         gameOverPanel.SetActive(true);
