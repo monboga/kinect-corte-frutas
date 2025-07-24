@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager instance;
 
     [Header("Componentes de UI")]
-    // referencia al texto de la UI que mostrará el puntaje.
+    // referencia al texto de la UI que mostrarÃ¡ el puntaje.
     public TextMeshProUGUI scoreText;
     // variables del temporizador
     public TextMeshProUGUI timerText; // referencia al texto del timer
@@ -161,7 +161,7 @@ public class ScoreManager : MonoBehaviour
 
     }
 
-    // se llama con el boton de "¡Entendido!" del panel de instrucciones
+    // se llama con el boton de "Â¡Entendido!" del panel de instrucciones
     public void DismissInstructions()
     {
         instructionsPanel.SetActive(false);
@@ -211,7 +211,7 @@ public class ScoreManager : MonoBehaviour
         Time.timeScale = 0.5f; // reduce la velocidad del juego momentaneamente
 
         // mostramos mensaje de exito
-        resultText.text = "¡NIVEL COMPLETADO! + " + timeBonus + "s";
+        resultText.text = "Â¡NIVEL COMPLETADO! + " + timeBonus + "s";
         resultText.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);
@@ -220,7 +220,7 @@ public class ScoreManager : MonoBehaviour
         Time.timeScale = 1f;
         resultText.gameObject.SetActive(false);
 
-        // añadimos tiempo extra
+        // aÃ±adimos tiempo extra
         timeRemaining += timeBonus;
         DisplayTime(timeRemaining);
 
@@ -239,8 +239,6 @@ public class ScoreManager : MonoBehaviour
         {
             AudioManager.instance.PlaySFX(AudioManager.instance.fruitGameOverSound);
         }
-
-
         currentState = GameState.GameOver;
         backToMenuButtonGameOver.gameObject.SetActive(true);
         gameOverPanel.SetActive(true);
@@ -252,7 +250,7 @@ public class ScoreManager : MonoBehaviour
         handCursor.SetActive(true);
 
         FindObjectOfType<FruitManager>()?.DestroyAllFruits();
-        resultText.text = "¡SE ACABO EL TIEMPO!";
+        resultText.text = "Â¡SE ACABO EL TIEMPO!";
     }
 
     public void RestartGame()
@@ -278,7 +276,7 @@ public class ScoreManager : MonoBehaviour
     // metodo para mostrar el tiempo formateado
     void DisplayTime(float timeToDisplay)
     {
-        // Sumamos 1 para que el display no muestre 0 cuando aún queda una fraccion de segundo
+        // Sumamos 1 para que el display no muestre 0 cuando aÃºn queda una fraccion de segundo
         timeToDisplay = Mathf.Max(0, timeToDisplay);
 
         // Usamos Mathf.FloorToInt para obtener solo el numero de entero de segundos
@@ -288,7 +286,7 @@ public class ScoreManager : MonoBehaviour
         timerText.text = "Tiempo: " + seconds.ToString();
     }
 
-    // metodo publico para añadir puntos
+    // metodo publico para aÃ±adir puntos
     public void AddScore(int points)
     {
         Debug.Log("Valor del score: " + score + " y valor del points: " + points);
