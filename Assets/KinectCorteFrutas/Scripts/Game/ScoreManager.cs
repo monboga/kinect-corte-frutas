@@ -232,17 +232,15 @@ public class ScoreManager : MonoBehaviour
         FindObjectOfType<FruitManager>().StartCoroutine("CreateFruitsGradually");
     }
 
-    void EndGame(bool hasWon)
+    void EndGame()
     {
         // aqui reproducimos el sonido de game over
         if (AudioManager.instance != null)
         {
-            // solo reproducimos el sonido de "Game Over" si el jugador perdio
-            if(!hasWon)
-            {
-                AudioManager.instance.PlaySFX(AudioManager.instance.fruitGameOverSound);
-            }
+            AudioManager.instance.PlaySFX(AudioManager.instance.fruitGameOverSound);
         }
+
+
         currentState = GameState.GameOver;
         backToMenuButtonGameOver.gameObject.SetActive(true);
         gameOverPanel.SetActive(true);
@@ -254,7 +252,7 @@ public class ScoreManager : MonoBehaviour
         handCursor.SetActive(true);
 
         FindObjectOfType<FruitManager>()?.DestroyAllFruits();
-        resultText.text = hasWon ? "¡GANASTE!" : "¡SE ACABO EL TIEMPO!";
+        resultText.text = "¡SE ACABO EL TIEMPO!";
     }
 
     public void RestartGame()
