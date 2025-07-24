@@ -73,6 +73,12 @@ public class Fruit : MonoBehaviour
         if (isCut) yield break; // Si ya fue cortada, no hacemos nada
         isCut = true;
 
+        // llamamos al audio de corte
+        if(AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySFX(AudioManager.instance.fruitCutSound);
+        }
+
         
         ScoreManager.instance.FruitCut();
 
