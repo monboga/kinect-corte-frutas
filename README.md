@@ -2,11 +2,14 @@
 
 ## Descripcion
 Juego de Unity que utiliza **Kinect SDK 2** para detección de esqueleto humano.
-- Funcionalidad Principal: Corta frutas unicamente con mano izquierda y derecha y además, puede detectar posturas con otro modo de juego.
+- `Kinect Corte de Frutas:` Corta frutas unicamente con mano izquierda y derecha dentro de un intervalo de tiempo (45 segundos). 
+# 🚧 En proceso de desarrollo 🚧
+- `Kinect deteccion de Posturas:` En esta escena debes de atravesar diferentes muros con siluetas, tienes 3 vidas para lograrlo. 
 
 ## Requisitos
 - Unity **2021.3.21f**.
 - Kinect SDK 2 instalado, enlace de descarga: https://www.microsoft.com/en-us/download/details.aspx?id=44561
+- Driver MySQL: https://dev.mysql.com/downloads/connector/net/
 - Hardware: Sensor de kinect para Xbox One.
 
 ## Configuracion
@@ -16,4 +19,4 @@ Juego de Unity que utiliza **Kinect SDK 2** para detección de esqueleto humano.
 2. Abre el proyecto en Unity Hub.
 
 ## Uso
-- Ejecuta la escena principal: Assets/Scenes/MainScene.unity
+- Ejecuta la escena principal: `Assets/Scenes/MainScene.unity`
