@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour
 {
 
     // Enum para controlar el estado del juego
-    public enum GameState { Instructions, WaitingForPlayer, Playing, GameOver }
+    public enum GameState { Instructions, WaitingForPlayer, Playing, GameOver, Paused }
     public GameState currentState;
 
     // Instancia estatica para acceder facilmente desde otros scripts
@@ -20,6 +20,7 @@ public class ScoreManager : MonoBehaviour
     // referencia al texto de la UI que mostrará el puntaje.
     public TextMeshProUGUI scoreText;
     // variables del temporizador
+    public GameObject playerLostPanel; // referencia al panel de juego en pausa.
     public TextMeshProUGUI timerText; // referencia al texto del timer
     public GameObject gameOverPanel; // refrencia a nuestro panel
     public TextMeshProUGUI resultText; // El texto de "Ganaste" o "Perdiste"
@@ -121,31 +122,27 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Solo revisamos el estado si el juego no ha termiando
-        if(currentState == GameState.WaitingForPlayer)
+        if (bodySourceManager != null)
         {
-            // Primero, nos aseguramos de que el manager exista.
-            if(bodySourceManager != null )
+            var bodies = bodySourceManager.GetData();
+            bool isBodyTracked = bodies != null && bodies.Any(b => b.IsTracked);
+
+            if (currentState == GameState.WaitingForPlayer && isBodyTracked)
             {
-                // obtenemos los datos del cuerpo en una variable
-                var bodies = bodySourceManager.GetData();
-
-                // ahora, ANTES de usar los datos, nos aseguramos de que no sean nulos.
-                // esta es la comprobacion que previene el error.
-                if(bodies != null && bodies.Any(b => b.IsTracked))
-                {
-                    // si todo es valido y hay un cuerpo, iniciamos el juego.
-                    StartGame();
-
-                }
-
-
+                StartGame();
             }
-            
+            else if (currentState == GameState.Playing && !isBodyTracked)
+            {
+                PauseGame(); // si se pierde el cuerpo, pausamos.
+            }
+            else if(currentState == GameState.Paused && isBodyTracked)
+            {
+                ResumeGame(); // si se vuelve a detectar, reanudamos
+            }
         }
-        else if (currentState == GameState.Playing)
+
+        if (currentState == GameState.Playing)
         {
-            // la logica del timer solo corre cuando estamos jugando
             if (timeRemaining > 0)
             {
                 timeRemaining -= Time.deltaTime;
@@ -292,6 +289,40 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("Valor del score: " + score + " y valor del points: " + points);
         score += points;
         scoreText.text = "Score: " + score.ToString();
+    }
+
+    // metodo de juego pausado
+    void PauseGame()
+    {
+        if (currentState != GameState.Playing) return;
+
+        currentState = GameState.Paused;
+
+        // detenemos el tiempo
+        Time.timeScale = 0;
+
+        // Mostramos UI de pausa
+        playerLostPanel.SetActive(true);
+
+        // Apagar las manos 3D
+        bodyView.enabled = false;
+    }
+
+    // metodo de reanudar el juego
+    void ResumeGame()
+    {
+        if (currentState != GameState.Paused) return;
+
+        currentState = GameState.Playing;
+
+        // Restauramos el tiempo
+        Time.timeScale = 1;
+
+        // ocultamos la UI de pausa.
+        playerLostPanel.SetActive(false);
+
+        // volver a acticar las manos 3D
+        bodyView.enabled = true;
     }
 
 }
