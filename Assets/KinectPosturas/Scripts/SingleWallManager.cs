@@ -10,7 +10,7 @@ public class SingleWallManager : MonoBehaviour
     private Vector3 endPos = new Vector3(15.5f, -15f, 60f);
 
     private int loopCount = 0;
-    private int maxLoops = 4;
+    private int maxLoops = 1;//4
 
     void Start()
     {
@@ -43,6 +43,6 @@ public class SingleWallManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f); // Pausa opcional entre repeticiones
         }
 
-        Debug.Log("Movimiento de pared completado 4 veces.");
+        Debug.Log("Movimiento de pared completado "+ maxLoops + " veces.");
     }
 }
