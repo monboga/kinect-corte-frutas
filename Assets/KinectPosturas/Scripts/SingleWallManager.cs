@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class SingleWallManager : MonoBehaviour
 {
@@ -10,10 +10,11 @@ public class SingleWallManager : MonoBehaviour
     private Vector3 endPos = new Vector3(15.5f, -15f, 60f);
 
     private int loopCount = 0;
-    private int maxLoops = 1;//4
+    private int maxLoops = 2;
 
     void Start()
     {
+        // Inicia el movimiento de la pared
         StartCoroutine(MoveWallLoop());
     }
 
@@ -21,9 +22,11 @@ public class SingleWallManager : MonoBehaviour
     {
         while (loopCount < maxLoops)
         {
+            // Establece la pared en la posición inicial
             wall.transform.position = startPos;
-            wall.SetActive(true);
+            wall.SetActive(true);  // Asegúrate de que la pared esté activa
 
+            // Mueve la pared hacia la posición final
             while (Mathf.Abs(wall.transform.position.z - endPos.z) > 0.01f)
             {
                 Vector3 newPos = Vector3.MoveTowards(
@@ -36,13 +39,14 @@ public class SingleWallManager : MonoBehaviour
                 yield return null;
             }
 
+            // Asegura que la pared esté exactamente en la posición final
             wall.transform.position = endPos;
-            wall.SetActive(false);
+            wall.SetActive(false);  // Desactiva la pared al llegar a la meta
 
-            loopCount++;
-            yield return new WaitForSeconds(0.5f); // Pausa opcional entre repeticiones
+            loopCount++;  // Incrementa el contador de bucles
+            yield return new WaitForSeconds(0.5f);  // Pausa antes de comenzar el siguiente movimiento
         }
 
-        Debug.Log("Movimiento de pared completado "+ maxLoops + " veces.");
+        Debug.Log("Movimiento de pared completado " + maxLoops + " veces.");
     }
 }

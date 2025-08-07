@@ -1,0 +1,488 @@
+[07/08/2025 04:39:55 p. m.] Log: Colisión en FootRight con Cube (72). Total: 1
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión en FootRight con Cube (42). Total: 2
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión en FootRight con Cube (71). Total: 3
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión en FootRight con Cube (41). Total: 4
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión en FootLeft con Cube (47). Total: 5
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión iniciada en extremidad: LeftLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión en FootLeft con Cube (77). Total: 6
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:55 p. m.] Log: Colisión iniciada en extremidad: LeftLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en AnkleRight con Cube (72). Total: 7
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión finalizada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:UnregisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:84)
+JointCollisionDetector:OnTriggerExit (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:24)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en AnkleLeft con Cube (77). Total: 8
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión finalizada en extremidad: LeftLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:UnregisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:84)
+JointCollisionDetector:OnTriggerExit (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:24)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en KneeRight con Cube (162). Total: 9
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en KneeRight con Cube (192). Total: 10
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en KneeRight con Cube (193). Total: 11
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en KneeRight con Cube (163). Total: 12
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en KneeLeft con Cube (166). Total: 13
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en KneeLeft con Cube (196). Total: 14
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ThumbRight con Cube (486). Total: 15
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HipRight con Cube (314). Total: 16
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ThumbRight con Cube (485). Total: 17
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HipRight con Cube (313). Total: 18
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HipLeft con Cube (315). Total: 19
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandTipRight con Cube (485). Total: 20
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandTipRight con Cube (455). Total: 21
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en SpineBase con Cube (314). Total: 22
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: Torso
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandRight con Cube (455). Total: 23
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandRight con Cube (486). Total: 24
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandRight con Cube (456). Total: 25
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandRight con Cube (485). Total: 26
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en WristRight con Cube (456). Total: 27
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en WristRight con Cube (486). Total: 28
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ThumbRight con Cube (485). Total: 29
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ElbowRight con Cube (489). Total: 30
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ElbowRight con Cube (459). Total: 31
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión finalizada en extremidad: RightLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:UnregisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:84)
+JointCollisionDetector:OnTriggerExit (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:24)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en SpineMid con Cube (404). Total: 32
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: Torso
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión finalizada en extremidad: LeftLeg
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:UnregisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:84)
+JointCollisionDetector:OnTriggerExit (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:24)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandTipLeft con Cube (473). Total: 33
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandTipLeft con Cube (503). Total: 34
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ShoulderRight con Cube (462). Total: 35
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ShoulderRight con Cube (492). Total: 36
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en WristLeft con Cube (472). Total: 37
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en WristLeft con Cube (502). Total: 38
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandLeft con Cube (473). Total: 39
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandLeft con Cube (503). Total: 40
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ThumbLeft con Cube (473). Total: 41
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ShoulderLeft con Cube (466). Total: 42
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ShoulderLeft con Cube (496). Total: 43
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ElbowLeft con Cube (469). Total: 44
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ElbowLeft con Cube (499). Total: 45
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en WristLeft con Cube (471). Total: 46
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en WristLeft con Cube (501). Total: 47
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandLeft con Cube (472). Total: 48
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ThumbLeft con Cube (472). Total: 49
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en HandLeft con Cube (502). Total: 50
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en SpineShoulder con Cube (494). Total: 51
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: Torso
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en Neck con Cube (524). Total: 52
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: Head
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión finalizada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:UnregisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:84)
+JointCollisionDetector:OnTriggerExit (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:24)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en ThumbLeft con Cube (472). Total: 53
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión en Head con Cube (554). Total: 54
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión iniciada en extremidad: Head
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión finalizada en extremidad: LeftArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:UnregisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:84)
+JointCollisionDetector:OnTriggerExit (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:24)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión finalizada en extremidad: Torso
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:UnregisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:84)
+JointCollisionDetector:OnTriggerExit (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:24)
+
+[07/08/2025 04:39:56 p. m.] Log: Colisión finalizada en extremidad: Head
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:UnregisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:84)
+JointCollisionDetector:OnTriggerExit (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:24)
+
+[07/08/2025 04:39:57 p. m.] Log: Colisión en HandTipRight con Cube (239). Total: 55
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:57 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:57 p. m.] Log: Colisión en ThumbRight con Cube (239). Total: 56
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:57 p. m.] Log: Colisión en HandTipRight con Cube (209). Total: 57
+Stack Trace: UnityEngine.Debug:Log (object)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:14)
+
+[07/08/2025 04:39:57 p. m.] Log: Colisión iniciada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:RegisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:69)
+JointCollisionDetector:OnTriggerEnter (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:16)
+
+[07/08/2025 04:39:57 p. m.] Log: Colisión finalizada en extremidad: RightArm
+Stack Trace: UnityEngine.Debug:Log (object)
+GroupedCollisionManager:UnregisterCollision (BodyRegion,UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/GroupedCollisionManager.cs:84)
+JointCollisionDetector:OnTriggerExit (UnityEngine.Collider) (at Assets/KinectPosturas/Scripts/JointCollisionDetector.cs:24)
+
+[07/08/2025 04:39:59 p. m.] Log: Movimiento de pared completado 1 veces.
+Stack Trace: UnityEngine.Debug:Log (object)
+SingleWallManager/<MoveWallLoop>d__7:MoveNext () (at Assets/KinectPosturas/Scripts/SingleWallManager.cs:52)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
