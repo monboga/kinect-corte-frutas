@@ -24,7 +24,7 @@ public class FruitManager : MonoBehaviour
         Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, distanceToPlane));
 
         // Definimos un margen para la zona de rebote (zona roja)
-        float bounceMargin = 0.8f; // 80% del área visible
+        float bounceMargin = 0.5f; // 80% del área visible
 
         // Límites de rebote (más pequeños que la pantalla completa)
         mBottomLeft = new Vector2(
