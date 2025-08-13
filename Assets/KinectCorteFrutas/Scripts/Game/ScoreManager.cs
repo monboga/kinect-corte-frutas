@@ -29,6 +29,7 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI waitingText; // texto de espera.
     public Button backToMenuButtonInstructions; // boton en panel de instrucciones
     public Button backToMenuButtonGameOver; // Boton en panel de game over.
+    public TextMeshProUGUI highScoreText; // componente de texto para mostrar el high score.
 
     [Header("Componentes de Kinect")]
     public GameObject kinecInputController; // referencia al objeto que tiene el cursos.
@@ -87,6 +88,9 @@ public class ScoreManager : MonoBehaviour
 
         // estado inicial del juego: Mostrar las instrucciones
         SetupInitialState();
+
+        // Llamamos al metodo para el puntaje mas alto al inicio del juego.
+        UpdateHighScoreDisplay();
 
     }
 
@@ -300,6 +304,20 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("Valor del score: " + score + " y valor del points: " + points);
         score += points;
         scoreText.text = "Score: " + score.ToString();
+    }
+
+    // metodo para actualizar el highscore
+    public void UpdateHighScoreDisplay()
+    {
+        // verificamos si la instancia del DatabaseManager existe
+        if (DatabaseManager.instance != null && highScoreText != null)
+        {
+            // Obtenemos el puntaje mas alto de la base de datos
+            int highScore = DatabaseManager.instance.GetHighScore();
+
+            // Actualizamos el texto de la UI con el puntaje mas alto
+            highScoreText.text = "High Score: " + highScoreText.ToString();
+        }
     }
 
     // metodo de juego pausado
