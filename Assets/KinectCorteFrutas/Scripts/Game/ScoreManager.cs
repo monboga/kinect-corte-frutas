@@ -248,6 +248,17 @@ public class ScoreManager : MonoBehaviour
 
         FindObjectOfType<FruitManager>()?.DestroyAllFruits();
         resultText.text = "¡SE ACABO EL TIEMPO!";
+
+        // Llamamos a nuestro gestor de base de datos para guardar la puntuacion final
+        // Solo guardamos la puntuacion si tenemos un gesto de base de datos en la escena
+        if (DatabaseManager.instance != null)
+        {
+            DatabaseManager.instance.SaveScore(score);
+        }
+        else
+        {
+            Debug.LogError("No se encuentra la instancia de DatabaseManager en la escena");
+        }
     }
 
     public void RestartGame()
