@@ -258,6 +258,9 @@ public class ScoreManager : MonoBehaviour
         if (DatabaseManager.instance != null)
         {
             DatabaseManager.instance.SaveScore(score);
+
+            // Despues de guardar, actualizamos la interfaz de usuario con el nuego High Score
+            UpdateHighScoreDisplay();
         }
         else
         {
