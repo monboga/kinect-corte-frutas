@@ -120,6 +120,36 @@ public class DatabaseManager : MonoBehaviour
         }
     }
 
+    // Metodo publico para obtener el puntaje mas alto de la base de datos
+    public int GetHighScore()
+    {
+        // La consulta SQL para obtener el puntaje maximo de la tabla
+        string sql = "SELECT MAX(score) FROM fruit_cut_score;";
+
+        // Creamos un nuevo objeto de comando
+        SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
+
+        try
+        {
+            // ExecuteScalar() se usa para obtener un solo valor de la base de datos
+            // Si no hay registros, devolvera DBNull
+            object result = command.ExecuteScalar();
+
+            // Verificamos si el resultado no es nulo y lo ocnvertimos a un entero
+            if (result != null && result != DBNull.Value)
+            {
+                return Convert.ToInt32(result);
+            }
+        }
+        catch (SQLiteException e)
+        {
+            Debug.LogError("Error al obtener el high score: " + e.Message);
+        }
+
+        // Si no se pudo obtener el puntaje devolvemos 0
+        return 0;
+    }
+
     void Start()
     {
         
