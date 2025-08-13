@@ -76,7 +76,7 @@ public class DatabaseManager : MonoBehaviour
         {
             // Ejecutamos la consulta
             command.ExecuteNonQuery();
-            Debug.Log("Tabla 'fruit_cut_score' fue creada exitosamente o ya existe")
+            Debug.Log("Tabla 'fruit_cut_score' fue creada exitosamente o ya existe");
         }
         catch (SQLiteException e)
         {
