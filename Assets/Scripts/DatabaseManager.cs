@@ -1,4 +1,4 @@
-using System.Data.SQLite; // Importamos la libreria para interactuar con la base de datos
+using Mono.Data.Sqlite; // Importamos la libreria para interactuar con la base de datos
 using System.IO; // para trabajar con la ruta del archivo de la base de datos.
 // importamos System.Collections para usar listas Genericas
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ public class DatabaseManager : MonoBehaviour
     private string dbName = "kinect_terapia_scores.db";
 
     // objeto de conexion a la base de datos
-    private SQLiteConnection dbConnection;
+    private SqliteConnection dbConnection;
 
     // Instancia estatica para acceder a la base de datos desde cualquier script
     public static DatabaseManager instance;
@@ -43,7 +43,7 @@ public class DatabaseManager : MonoBehaviour
         Debug.Log("Ruta de la base de datos: " + dbPath);
 
         // Creamos la cadena de conexion
-        dbConnection = new SQLiteConnection("URI=file:" + dbPath);
+        dbConnection = new SqliteConnection("URI=file:" + dbPath);
 
         try
         {
@@ -54,7 +54,7 @@ public class DatabaseManager : MonoBehaviour
             // Creamos la tabla 'fruit_cut_score' si no existe
             CreateScoreTable();
         }
-        catch (SQLiteException e)
+        catch (SqliteException e)
         {
             Debug.LogError("Error al conectar a la base de datos: " + e.Message);
         }
@@ -70,7 +70,7 @@ public class DatabaseManager : MonoBehaviour
             "date TEXT NOT NULL);";
 
         // Creamos el comando SQL
-        SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
+        SqliteCommand command = new SqliteCommand(sql, dbConnection);
 
         try
         {
@@ -78,7 +78,7 @@ public class DatabaseManager : MonoBehaviour
             command.ExecuteNonQuery();
             Debug.Log("Tabla 'fruit_cut_score' fue creada exitosamente o ya existe");
         }
-        catch (SQLiteException e)
+        catch (SqliteException e)
         {
             Debug.LogError("Error al creat la tabla: " + e.Message);
         }
@@ -91,7 +91,7 @@ public class DatabaseManager : MonoBehaviour
         string sql = "INSERT INTO fruit_cut_score (score, date) VALUES (@score, @date);";
 
         // Creamos un nuevo comando
-        SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
+        SqliteCommand command = new SqliteCommand(sql, dbConnection);
 
         // Añadimos los parametros a la consulta para prevenir inyeccion SQL
         command.Parameters.AddWithValue("@score", score);
@@ -103,7 +103,7 @@ public class DatabaseManager : MonoBehaviour
             int rowsAffected = command.ExecuteNonQuery();
             Debug.Log("El score fue guardado. Filas afectadas: " + rowsAffected);
         }
-        catch (SQLiteException e)
+        catch (SqliteException e)
         {
             Debug.LogError("Error al guardar el score: " + e.Message);
         }
@@ -127,7 +127,7 @@ public class DatabaseManager : MonoBehaviour
         string sql = "SELECT MAX(score) FROM fruit_cut_score;";
 
         // Creamos un nuevo objeto de comando
-        SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
+        SqliteCommand command = new SqliteCommand(sql, dbConnection);
 
         try
         {
@@ -141,7 +141,7 @@ public class DatabaseManager : MonoBehaviour
                 return Convert.ToInt32(result);
             }
         }
-        catch (SQLiteException e)
+        catch (SqliteException e)
         {
             Debug.LogError("Error al obtener el high score: " + e.Message);
         }
