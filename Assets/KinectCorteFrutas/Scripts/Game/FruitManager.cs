@@ -8,7 +8,10 @@ public class FruitManager : MonoBehaviour
     public GameObject mFruitPrefab;
     public int maxFruits = 20; // numero maximo de frutas a generar
     public float spawnInterval = 0.75f; // Tiempo entre la generacion de cada fruta
+    public float bounceMargin = 0.5f; // Hacemos la variable publica para modificarla dentro del scoremanager
 
+    // Referencia al objeto que visualizara el margen
+    public LineRenderer marginVisualizer;
 
     private List<Fruit> mAllFruits = new List<Fruit>();
     private Vector2 mBottomLeft = Vector2.zero;
@@ -19,12 +22,15 @@ public class FruitManager : MonoBehaviour
     private void Awake()
     {
         // Calculamos los límites de la cámara como antes
+        CalculateBounds();
+    }
+
+    // NUevo metodo para calcular los limites de la zona de rebote
+    private void CalculateBounds()
+    {
         float distanceToPlane = Mathf.Abs(Camera.main.transform.position.z);
         Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distanceToPlane));
         Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, distanceToPlane));
-
-        // Definimos un margen para la zona de rebote (zona roja)
-        float bounceMargin = 0.5f; // 50% del área visible
 
         // Límites de rebote (más pequeños que la pantalla completa)
         mBottomLeft = new Vector2(
@@ -39,6 +45,53 @@ public class FruitManager : MonoBehaviour
         // Límites de generación (en los bordes, zona azul)
         mSpawnBottomLeft = bottomLeft;
         mSpawnTopRight = topRight;
+    }
+
+    public void UpdateBounceMargin (float newMargin)
+    {
+        this.bounceMargin = newMargin; // Actualizamos el margen con el nuevo valor.
+        CalculateBounds(); // Recalculamos los limites
+
+        // Reset() ya no detiene coroutines
+        Reset();
+        // Detenemos cualquier coroutine de visualizacion que este en ejecucion
+        StopCoroutine("CreateFruitsGradually");
+
+        StartCoroutine("ShowMarginVisualizer", 1.0f); // Mostramos la ayuda visual por 1 segundo
+
+        // Iniciamos la generacion de frutas para el nuevo nivel
+        StartCoroutine(CreateFruitsGradually());
+    }
+
+    // Coroutine para mostrar el visualizador por un tiempo limitado.
+    private IEnumerator ShowMarginVisualizer(float duration)
+    {
+        if (marginVisualizer != null)
+        {
+            // Dibuja el margen primero
+            DrawMargin();
+            // Lo activa
+            marginVisualizer.enabled = true;
+            // espera el tiempo especificado
+            yield return new WaitForSeconds(duration);
+
+            // lo desactiva al terminar el tiempo
+            marginVisualizer.enabled = false;
+        }
+    }
+
+    // Dibuja el margen usando LineRenderer
+    private void DrawMargin()
+    {
+        Vector3[] corners = new Vector3[5];
+        corners[0] = new Vector3(mBottomLeft.x, mBottomLeft.y, 0);
+        corners[1] = new Vector3(mBottomLeft.x, mTopRight.y, 0);
+        corners[2] = new Vector3(mTopRight.x, mTopRight.y, 0);
+        corners[3] = new Vector3(mTopRight.x, mBottomLeft.y, 0);
+        corners[4] = corners[0];
+
+        marginVisualizer.positionCount = corners.Length;
+        marginVisualizer.SetPositions(corners);
     }
 
     private Vector3 GetSpawnPositionFromCorner()
@@ -69,6 +122,12 @@ public class FruitManager : MonoBehaviour
     {
         // se comenta ya que no se utiliza y se usara otro metodo.
         // StartCoroutine(CreateFruitsGradually());
+
+        // Se asegura que el visualizador este apagado al inicio del juego
+        if (marginVisualizer != null)
+        {
+            marginVisualizer.enabled = false;
+        }
     }
 
     // funcion de creacion modificada
@@ -111,11 +170,9 @@ public class FruitManager : MonoBehaviour
             }
         }
     }
-
+    // Se enfoca en la limpieza de objetos.
     public void Reset()
     {
-
-        StopAllCoroutines(); // Detiene la generacion actual de frutas.
 
         // destruimos cualquier fruta que haya quedado en pantalla
         DestroyAllFruits();
