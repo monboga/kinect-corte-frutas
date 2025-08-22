@@ -17,8 +17,7 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager instance;
 
     [Header("Componentes de UI")]
-    // referencia al texto de la UI que mostrará el puntaje.
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreText; // referencia al texto de la UI que mostrará el puntaje.
     // variables del temporizador
     public GameObject playerLostPanel; // referencia al panel de juego en pausa.
     public TextMeshProUGUI timerText; // referencia al texto del timer
@@ -31,14 +30,27 @@ public class ScoreManager : MonoBehaviour
     public Button backToMenuButtonGameOver; // Boton en panel de game over.
     public TextMeshProUGUI highScoreText; // componente de texto para mostrar el high score.
 
+    // Texto para mostrar el nivel actual
+    public TextMeshProUGUI levelText;
+
     [Header("Componentes de Kinect")]
     public GameObject kinecInputController; // referencia al objeto que tiene el cursos.
     public GameObject handCursor; // objeto visual del cursor
 
+    [Header("Recompensas por completar")]
+    public int timeBonus = 15; // Segundos extra al completar todas las frutas
 
     [Header("Configuracion del juego")]
     public int maxFruits = 20;
     public int pointsPerFruit = 5;
+
+    // Referencia al gestor de frutas para actualizar los limites de rebote
+    private FruitManager fruitManager;
+
+    // Variables para la logica de niveles
+    public int currentLevel = 1;
+    // Valores de margen de rebote para cada nivel
+    public float[] bounceMargins = { 0.5f, 0.65f, 0.8f };
 
     // referencia al gestor del Kinect
     private BodySourceManager bodySourceManager;
@@ -49,9 +61,6 @@ public class ScoreManager : MonoBehaviour
     public float timeRemaining = 40; // Tiempo inicial en segundos
 
     private float initialTime; // guardaremos el tiempo inicial para poder resetearlo
-
-    [Header("Recompensas por completar")]
-    public int timeBonus = 15; // Segundos extra al completar todas las frutas
     
 
     // Awake se llama antes de cualquier metodo start
@@ -71,6 +80,8 @@ public class ScoreManager : MonoBehaviour
         // ahora
 
         bodySourceManager = BodySourceManager.instance;
+        // agregamos esta linea para encontrar la referencia al FruitManager
+        fruitManager = FindObjectOfType<FruitManager>();
 
         // usando esa instancia, buscamos el componente BodySourceView en sus hijos.
         if(bodySourceManager != null)
@@ -84,6 +95,13 @@ public class ScoreManager : MonoBehaviour
             Debug.LogError("ERROR: la variable 'bodyview' no ha sido asignada en elprefab de KinectManager");
             return;
 
+        }
+
+        // Comprobamos si el FruitManager se encontro correctamente
+        if (fruitManager == null)
+        {
+            Debug.LogError("Error: no se encontro el FruitManager en la escena");
+            return;
         }
 
         // estado inicial del juego: Mostrar las instrucciones
@@ -100,15 +118,24 @@ public class ScoreManager : MonoBehaviour
 
         // resetear las variables
         score = 0;
+        currentLevel = 1; // Reiniciamos el nivel a 1 al inicio del juego.
         fruitsRemaining = maxFruits;
         timeRemaining = initialTime;
 
         // resetar el UI
         scoreText.text = "Score: 0";
         DisplayTime(timeRemaining);
+        levelText.text = "Nivel: " + currentLevel; // Mostramos el nivel inicial.
         instructionsPanel.SetActive(true);
         waitingText.gameObject.SetActive(false);
         gameOverPanel.SetActive(false);
+
+        // Detenemos todas las coroutines en el FruitManager
+        if (fruitManager != null )
+        {
+            fruitManager.StopAllCoroutines();
+            fruitManager.Reset();
+        }
 
         // configurar visibilidad de manos/cursor para el menu de instrucciones
         bodyView.enabled = false;
@@ -120,7 +147,7 @@ public class ScoreManager : MonoBehaviour
         backToMenuButtonGameOver.gameObject.SetActive(true);
 
         // llamamos alnuevo metodo Reset del FruitManager
-        FindObjectOfType<FruitManager>().Reset();
+        fruitManager.Reset();
     }
 
     // Update is called once per frame
@@ -182,7 +209,7 @@ public class ScoreManager : MonoBehaviour
         handCursor.SetActive(false); // ocultamos el objeto del cursor
 
         // Le damos la orden al FruitManager de que empiece a crear las frutas
-        FindObjectOfType<FruitManager>()?.StartCoroutine("CreateFruitsGradually");
+        fruitManager?.StartCoroutine("CreateFruitsGradually");
     }
 
     public void FruitCut()
@@ -195,8 +222,19 @@ public class ScoreManager : MonoBehaviour
 
         if(fruitsRemaining <= 0)
         {
-            // en lugar de terminar el juego hacemos respawn
-            StartCoroutine(HandleLevelCompletion());
+            // Verificamos si hay mas niveles o si el juego ha terminado
+            if (currentLevel < bounceMargins.Length)
+            {
+                currentLevel++; // Incrementamos el nivel
+                StartCoroutine(HandleLevelCompletion());
+            }
+            else
+            {
+                // Si ya pasamos todos los niveles, ganamos.
+                EndGame();
+                resultText.text = "¡GANASTE!";
+            }
+            
         }
     }
 
@@ -208,12 +246,13 @@ public class ScoreManager : MonoBehaviour
         {
             AudioManager.instance.PlaySFX(AudioManager.instance.fruitCutCompletedSound);
         }
+        // mostramos mensaje de exito
+        resultText.text = $"¡NIVEL {currentLevel-1} COMPLETADO! + {timeBonus}s";
+        resultText.gameObject.SetActive(true);
+
         // Pausamos brevemente el juego para feedback
         Time.timeScale = 0.5f; // reduce la velocidad del juego momentaneamente
 
-        // mostramos mensaje de exito
-        resultText.text = "¡NIVEL COMPLETADO! + " + timeBonus + "s";
-        resultText.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);
 
@@ -225,12 +264,20 @@ public class ScoreManager : MonoBehaviour
         timeRemaining += timeBonus;
         DisplayTime(timeRemaining);
 
-        // reseteamos el contador de frutas
-        fruitsRemaining = maxFruits;
+        // Preparamos el siguiente nivel
+        PrepareForNewLevel();
+    }
+    // Prepara las variables para un nuevo nivel
+    private void PrepareForNewLevel()
+    {
+        levelText.text = "Level: " + currentLevel; // actualizamos el texto del nivel.
+        fruitsRemaining = maxFruits; // reiniciamos el contador de frutas.
 
-        // respawn de frutas
-        FindObjectOfType<FruitManager>().Reset();
-        FindObjectOfType<FruitManager>().StartCoroutine("CreateFruitsGradually");
+        // Obtenemos el nuevo margen de rebote del arreglo
+        float newBounceMargin = bounceMargins[currentLevel - 1];
+
+        // Llamamos al FruitManager para que actualice sus limites y reinicie la generacion de frutas.
+        fruitManager.UpdateBounceMargin(newBounceMargin);
     }
 
     void EndGame()
@@ -250,8 +297,9 @@ public class ScoreManager : MonoBehaviour
         kinecInputController.SetActive(true);
         handCursor.SetActive(true);
 
-        FindObjectOfType<FruitManager>()?.DestroyAllFruits();
+        fruitManager?.DestroyAllFruits();
         resultText.text = "¡SE ACABO EL TIEMPO!";
+        resultText.gameObject.SetActive(true);
 
         // Llamamos a nuestro gestor de base de datos para guardar la puntuacion final
         // Solo guardamos la puntuacion si tenemos un gesto de base de datos en la escena
@@ -319,7 +367,7 @@ public class ScoreManager : MonoBehaviour
             int highScore = DatabaseManager.instance.GetHighScore();
 
             // Actualizamos el texto de la UI con el puntaje mas alto
-            highScoreText.text = "High Score: " + highScoreText.ToString();
+            highScoreText.text = "High Score: " + highScore.ToString();
         }
     }
 
