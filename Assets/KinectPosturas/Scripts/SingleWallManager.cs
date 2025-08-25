@@ -11,7 +11,7 @@ public class SingleWallManager : MonoBehaviour
     private Vector3 endPos = new Vector3(15.5f, -15f, 60f);
 
     private int loopCount = 0;
-    private int maxLoops = 3;//4
+    private int maxLoops = 4;
 
     private List<Transform> wallParts = new List<Transform>();
 
@@ -87,7 +87,7 @@ public class SingleWallManager : MonoBehaviour
     }
 
     // Forma 1: desactiva cubos por índice
-    void ApplyForm2()
+    void ApplyForm1()
     {
         int[] cubesToDisable = new int[]
         {
@@ -121,20 +121,6 @@ public class SingleWallManager : MonoBehaviour
             403,
             404, 405,
             406,
-            /*
-            424, 425, 426, 427, 428, 429,
-            430, 431, 432, 433, 434, 435,
-            436, 437, 438, 439, 440, 441,
-            442, 443, 444, 445,
-            454, 455, 456, 457, 458, 459,
-            460, 461, 462, 463, 464, 465,
-            466, 467, 468, 469, 470, 471,
-            472, 473, 474, 475,
-            484, 485, 486, 487, 488, 489,
-            490, 491, 492, 493, 494, 495,
-            496, 497, 498, 499, 500, 501,
-            502, 503, 504, 505,
-            */
             394, 395, 396, 397, 398, 399,
             400, 401, 402, 403, 404, 405,
             406, 407, 408, 409, 410, 411,
@@ -150,7 +136,7 @@ public class SingleWallManager : MonoBehaviour
             494, 495,
             195, 194, 166, 163, 136, 133, 106, 103, 77, 72, 47, 42, 17, 12,
             524, 525,
-            554, 555
+            554, 555,
         };
 
         foreach (int index in cubesToDisable)
@@ -166,7 +152,7 @@ public class SingleWallManager : MonoBehaviour
         }
     }
 
-    void ApplyForm1()
+    void ApplyForm2()
     {
         int[] cubesToDisable = new int[]
         {
@@ -186,12 +172,22 @@ public class SingleWallManager : MonoBehaviour
             406, 405, 404, 403,
             436, 435, 434, 433,
             466, 465, 464, 463,
-            496, 495, 494, 493,
+            495, 494,
             524, 525,
             554, 555,
-            467, 497, 499, 532, 533, 534, 564, 534, 462, 492, 490, 547, 517, 518, 546, 516, 516, 517, 546, 545,
-            461, 468, 489, 491, 498, 500, 531, 515, 519, 520, 521, 522, 527, 528, 529, 530, 548, 561, 562, 563,
-            460, 469, 488, 549, 501, 550, 559, 560
+            437, 432, 460, 546, 516, 459, 469, 501, 531, 563, 517, 487, 515, 532, 533,
+            518, 488,
+            500, 499,
+            468, 467,
+            561, 562, 564,
+            529, 530,
+            497, 498,
+            534, 502, 470,
+            489, 490,
+            461, 462,
+            545, 547, 548,
+            519, 520,
+            491, 492,
         };
 
         foreach (int index in cubesToDisable)
@@ -217,20 +213,9 @@ public class SingleWallManager : MonoBehaviour
             316, 315, 314, 313,
             346, 345, 344, 343,
             376, 375, 374, 373,
-            405, 404,//406, 403
+            405, 404,
             434, 435,
             464, 465,
-            /*
-            334, 335, 336, 337, 338, 339,
-            340, 341, 342, 347, 348, 349, 350, 351,
-            352, 353, 354, 355,
-            364, 365, 366, 367, 368, 369,
-            370, 371, 372, 377, 378, 379, 380, 381,
-            382, 383, 384, 385,
-            394, 395, 396, 397, 398, 399,
-            400, 401, 402, 407, 408, 409, 410, 411,
-            412, 413, 414, 415,
-            */
             304, 305, 306, 307, 308, 309,
             310, 311, 312, 317, 318, 319, 320, 321,
             322, 323, 324, 325,
@@ -240,7 +225,6 @@ public class SingleWallManager : MonoBehaviour
             364, 365, 366, 367, 368, 369,
             370, 371, 372, 377, 378, 379, 380, 381,
             382, 383, 384, 385,
-
             222, 227,
             192, 197,
             138, 131, 130, 51, 50, 41, 40, 21, 20, 11, 10,
@@ -256,7 +240,7 @@ public class SingleWallManager : MonoBehaviour
             108, 109, 110,
             79, 80, 81,
             52,
-            22
+            22,
         };
 
         foreach (int index in cubesToDisable)
@@ -271,5 +255,71 @@ public class SingleWallManager : MonoBehaviour
             }
         }
     }
-    void ApplyForm4() { /* otros índices */ }
+    void ApplyForm4()
+    {
+        int columns = 30;
+
+        int[] originalIndices = new int[]
+        {
+            196, 195, 194, 193,
+            226, 225, 224, 223,
+            256, 255, 254, 253,
+            286, 285, 284, 283,
+            316, 315, 314, 313,
+            346, 345, 344, 343,
+            376, 375, 374, 373,
+            405, 404,
+            434, 435,
+            464, 465,
+            304, 305, 306, 307, 308, 309,
+            310, 311, 312, 317, 318, 319, 320, 321,
+            322, 323, 324, 325,
+            334, 335, 336, 337, 338, 339,
+            340, 341, 342, 347, 348, 349, 350, 351,
+            352, 353, 354, 355,
+            364, 365, 366, 367, 368, 369,
+            370, 371, 372, 377, 378, 379, 380, 381,
+            382, 383, 384, 385,
+            222, 227,
+            192, 197,
+            138, 131, 130, 51, 50, 41, 40, 21, 20, 11, 10,
+            190, 191,
+            160, 161, 162, 163,
+            132,
+            100, 101, 102,
+            70, 71, 72,
+            42,
+            12,
+            166, 167, 168,
+            137, 139,
+            108, 109, 110,
+            79, 80, 81,
+            52,
+            22,
+        };
+
+        List<int> flippedIndices = new List<int>();
+
+        foreach (int index in originalIndices)
+        {
+            int row = index / columns;
+            int col = index % columns;
+            int flippedCol = columns - 1 - col;
+            int flippedIndex = row * columns + flippedCol;
+
+            flippedIndices.Add(flippedIndex);
+        }
+
+        foreach (int index in flippedIndices)
+        {
+            if (index >= 0 && index < wallParts.Count)
+            {
+                wallParts[index].gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.LogWarning("Índice fuera de rango en ApplyForm4: " + index);
+            }
+        }
+    }
 }
