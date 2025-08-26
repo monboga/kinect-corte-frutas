@@ -1,92 +1,171 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 
 public class SingleWallManager : MonoBehaviour
 {
+    [Header("Wall Settings")]
     public GameObject wall;
-    public float speed = 10f;
+    public float baseSpeed = 10f;
 
     private Vector3 startPos = new Vector3(15.5f, -15f, -50f);
     private Vector3 endPos = new Vector3(15.5f, -15f, 60f);
 
-    private int loopCount = 0;
-    private int maxLoops = 4;
-
     private List<Transform> wallParts = new List<Transform>();
+    private List<MethodInfo> applyFormMethods = new List<MethodInfo>();
+
+    private int currentLevel = 1;
+    private int maxLevel = 5;
+    private int wallsPerLevel = 5;
+
+    // UI por código
+    private string guiMessage = "";
+    private float messageDisplayTime = 0f;
+    private float messageTimer = 0f;
+
+    private string currentLevelMessage = "";
+    private bool showCurrentLevelMessage = false;
 
     void Start()
     {
-        // Obtener todos los cubos hijos de wall que tienen la tag WallPart
+        // Obtener cubos de la pared
         foreach (Transform child in wall.transform)
         {
             if (child.CompareTag("WallPart"))
-            {
                 wallParts.Add(child);
-            }
         }
 
-        StartCoroutine(MoveWallLoop());
-    }
-
-    IEnumerator MoveWallLoop()
-    {
-        while (loopCount < maxLoops)
+        // Buscar métodos ApplyForm dinámicamente
+        MethodInfo[] allMethods = GetType().GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
+        foreach (var method in allMethods)
         {
-            // Reinicia la posición y activa el muro
-            wall.transform.position = startPos;
-            wall.SetActive(true);
-
-            // Activa todos los cubos (por si fueron desactivados antes)
-            foreach (Transform part in wallParts)
-            {
-                part.gameObject.SetActive(true);
-            }
-
-            // Aplica la forma correspondiente
-            ApplyForm(loopCount);
-
-            // Mueve la pared hacia la posición final
-            while (Mathf.Abs(wall.transform.position.z - endPos.z) > 0.01f)
-            {
-                Vector3 newPos = Vector3.MoveTowards(
-                    wall.transform.position,
-                    endPos,
-                    speed * Time.deltaTime
-                );
-
-                wall.transform.position = new Vector3(startPos.x, startPos.y, newPos.z);
-                yield return null;
-            }
-
-            // Asegura posición final y desactiva
-            wall.transform.position = endPos;
-            wall.SetActive(false);
-
-            loopCount++;
-            yield return new WaitForSeconds(0.5f);
+            if (method.Name.StartsWith("ApplyForm"))
+                applyFormMethods.Add(method);
         }
 
-        Debug.Log("Movimiento de pared completado " + maxLoops + " veces.");
+        StartCoroutine(LevelLoop());
     }
 
-    // Aplica la forma según el número de loop
-    void ApplyForm(int formIndex)
+    IEnumerator LevelLoop()
     {
-        switch (formIndex)
+        // Mensaje inicial
+        yield return ShowMessage("¿Listo?", 1f);
+
+        // Cuenta regresiva solo al inicio
+        for (int i = 3; i > 0; i--)
         {
-            case 0:
-                ApplyForm1(); break;
-            case 1:
-                ApplyForm2(); break;
-            case 2:
-                ApplyForm3(); break;
-            case 3:
-                ApplyForm4(); break;
+            yield return ShowMessage(i.ToString(), 1f);
+        }
+
+        while (currentLevel <= maxLevel)
+        {
+            // Mostrar mensaje de nivel (se mantendrá visible)
+            currentLevelMessage = "Nivel " + currentLevel;
+            showCurrentLevelMessage = true;
+            yield return ShowMessage(currentLevelMessage, 1f);
+
+            // Lista de formas disponibles (aleatorio)
+            List<int> availableForms = new List<int>();
+            for (int i = 0; i < applyFormMethods.Count; i++)
+                availableForms.Add(i);
+
+            for (int i = 0; i < wallsPerLevel; i++)
+            {
+                if (availableForms.Count == 0)
+                {
+                    for (int j = 0; j < applyFormMethods.Count; j++)
+                        availableForms.Add(j);
+                }
+
+                int randomIndex = Random.Range(0, availableForms.Count);
+                int selectedForm = availableForms[randomIndex];
+                availableForms.RemoveAt(randomIndex);
+
+                yield return StartCoroutine(MoveSingleWall(selectedForm));
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            currentLevel++;
+            baseSpeed += 2f;
+        }
+
+        showCurrentLevelMessage = false;
+        yield return ShowMessage("¡Juego completado!", 3f);
+    }
+
+    IEnumerator ShowMessage(string message, float duration)
+    {
+        guiMessage = message;
+        messageDisplayTime = duration;
+        messageTimer = 0f;
+
+        while (messageTimer < messageDisplayTime)
+        {
+            messageTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        guiMessage = "";
+    }
+
+    IEnumerator MoveSingleWall(int formIndex)
+    {
+        wall.transform.position = startPos;
+        wall.SetActive(true);
+
+        foreach (Transform part in wallParts)
+            part.gameObject.SetActive(true);
+
+        if (formIndex >= 0 && formIndex < applyFormMethods.Count)
+        {
+            applyFormMethods[formIndex].Invoke(this, null);
+        }
+
+        while (Mathf.Abs(wall.transform.position.z - endPos.z) > 0.01f)
+        {
+            Vector3 newPos = Vector3.MoveTowards(
+                wall.transform.position,
+                endPos,
+                baseSpeed * Time.deltaTime
+            );
+
+            wall.transform.position = new Vector3(startPos.x, startPos.y, newPos.z);
+            yield return null;
+        }
+
+        wall.transform.position = endPos;
+        wall.SetActive(false);
+    }
+
+    void OnGUI()
+    {
+        GUIStyle style = new GUIStyle
+        {
+            fontSize = 60,
+            alignment = TextAnchor.UpperRight,
+            normal = { textColor = Color.cyan }
+        };
+
+        // Mensaje temporal (¿Listo?, 3, 2, 1, ¡Juego completado!)
+        if (!string.IsNullOrEmpty(guiMessage))
+        {
+            Rect rect = new Rect(Screen.width - 420, 40, 400, 100);
+            GUI.Label(rect, guiMessage, style);
+        }
+
+        // Mensaje de Nivel permanente
+        if (showCurrentLevelMessage)
+        {
+            GUIStyle levelStyle = new GUIStyle(style);
+            levelStyle.fontSize = 40;
+            levelStyle.normal.textColor = Color.white;
+
+            Rect rect = new Rect(Screen.width - 420, 120, 400, 60);
+            GUI.Label(rect, currentLevelMessage, levelStyle);
         }
     }
 
-    // Forma 1: desactiva cubos por índice
     void ApplyForm1()
     {
         int[] cubesToDisable = new int[]
