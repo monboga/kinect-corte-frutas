@@ -19,7 +19,6 @@ public class SingleWallManager : MonoBehaviour
     private int maxLevel = 5;
     private int wallsPerLevel = 5;
 
-    // UI por código
     private string guiMessage = "";
     private float messageDisplayTime = 0f;
     private float messageTimer = 0f;
@@ -27,16 +26,16 @@ public class SingleWallManager : MonoBehaviour
     private string currentLevelMessage = "";
     private bool showCurrentLevelMessage = false;
 
+    private bool isGameOver = false; // <-- Nueva variable
+
     void Start()
     {
-        // Obtener cubos de la pared
         foreach (Transform child in wall.transform)
         {
             if (child.CompareTag("WallPart"))
                 wallParts.Add(child);
         }
 
-        // Buscar métodos ApplyForm dinámicamente
         MethodInfo[] allMethods = GetType().GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
         foreach (var method in allMethods)
         {
@@ -49,29 +48,25 @@ public class SingleWallManager : MonoBehaviour
 
     IEnumerator LevelLoop()
     {
-        // Mensaje inicial
         yield return ShowMessage("¿Listo?", 1f);
 
-        // Cuenta regresiva solo al inicio
         for (int i = 3; i > 0; i--)
-        {
             yield return ShowMessage(i.ToString(), 1f);
-        }
 
-        while (currentLevel <= maxLevel)
+        while (currentLevel <= maxLevel && !isGameOver)
         {
-            // Mostrar mensaje de nivel (se mantendrá visible)
             currentLevelMessage = "Nivel " + currentLevel;
             showCurrentLevelMessage = true;
             yield return ShowMessage(currentLevelMessage, 1f);
 
-            // Lista de formas disponibles (aleatorio)
             List<int> availableForms = new List<int>();
             for (int i = 0; i < applyFormMethods.Count; i++)
                 availableForms.Add(i);
 
             for (int i = 0; i < wallsPerLevel; i++)
             {
+                if (isGameOver) break;
+
                 if (availableForms.Count == 0)
                 {
                     for (int j = 0; j < applyFormMethods.Count; j++)
@@ -90,8 +85,11 @@ public class SingleWallManager : MonoBehaviour
             baseSpeed += 2f;
         }
 
-        showCurrentLevelMessage = false;
-        yield return ShowMessage("¡Juego completado!", 3f);
+        if (!isGameOver)
+        {
+            showCurrentLevelMessage = false;
+            yield return ShowMessage("¡Juego completado!", 3f);
+        }
     }
 
     IEnumerator ShowMessage(string message, float duration)
@@ -122,7 +120,7 @@ public class SingleWallManager : MonoBehaviour
             applyFormMethods[formIndex].Invoke(this, null);
         }
 
-        while (Mathf.Abs(wall.transform.position.z - endPos.z) > 0.01f)
+        while (Mathf.Abs(wall.transform.position.z - endPos.z) > 0.01f && !isGameOver)
         {
             Vector3 newPos = Vector3.MoveTowards(
                 wall.transform.position,
@@ -138,6 +136,14 @@ public class SingleWallManager : MonoBehaviour
         wall.SetActive(false);
     }
 
+    public void StopWallMovement()
+    {
+        Debug.Log("Juego detenido por GAME OVER");
+        isGameOver = true;
+        StopAllCoroutines();
+        wall.SetActive(false);
+    }
+
     void OnGUI()
     {
         GUIStyle style = new GUIStyle
@@ -147,14 +153,12 @@ public class SingleWallManager : MonoBehaviour
             normal = { textColor = Color.cyan }
         };
 
-        // Mensaje temporal (¿Listo?, 3, 2, 1, ¡Juego completado!)
         if (!string.IsNullOrEmpty(guiMessage))
         {
             Rect rect = new Rect(Screen.width - 420, 40, 400, 100);
             GUI.Label(rect, guiMessage, style);
         }
 
-        // Mensaje de Nivel permanente
         if (showCurrentLevelMessage)
         {
             GUIStyle levelStyle = new GUIStyle(style);
