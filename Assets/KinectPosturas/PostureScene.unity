@@ -53289,6 +53289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c86c3407f37ac4cbd401db4048ba70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vidas: 10
 --- !u!4 &1863471802
 Transform:
   m_ObjectHideFlags: 0
@@ -55856,7 +55857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1216927811}
-  speed: 10
+  baseSpeed: 10
 --- !u!4 &1942835460
 Transform:
   m_ObjectHideFlags: 0

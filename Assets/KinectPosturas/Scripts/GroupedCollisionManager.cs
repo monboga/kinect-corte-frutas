@@ -1,122 +1,79 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class GroupedCollisionManager : MonoBehaviour
 {
-    public static GroupedCollisionManager Instance;
+    public static GroupedCollisionManager Instance { get; private set; }
 
-    // Seguimiento actual de colliders por región
-    private Dictionary<BodyRegion, HashSet<Collider>> regionColliders = new Dictionary<BodyRegion, HashSet<Collider>>();
-    private Dictionary<BodyRegion, int> regionColliderCounts = new Dictionary<BodyRegion, int>();
+    private Dictionary<BodyRegion, Collider> activeCollisions = new Dictionary<BodyRegion, Collider>();
+    private int groupedCollisionCount = 0;
 
-    // Conteo acumulado total de colisiones por región
-    private Dictionary<BodyRegion, int> totalRegionHits = new Dictionary<BodyRegion, int>();
-
-    public int CurrentGroupedCollisions => regionColliderCounts.Count;
+    [SerializeField] private int vidas = 10; // <-- Vidas iniciales ahora son 10
+    private bool isGameOver = false;
 
     void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            vidas = 10; // <-- Forzar valor por seguridad
+        }
         else
+        {
             Destroy(gameObject);
-    }
-
-    // Devuelve las regiones que están actualmente en colisión.
-    public List<BodyRegion> GetActiveRegions()
-    {
-        return regionColliderCounts.Keys.ToList();
-    }
-
-    // Devuelve las regiones que han colisionado en cualquier momento.
-    public List<BodyRegion> GetAllTouchedRegions()
-    {
-        return totalRegionHits.Keys.ToList();
-    }
-
-    public int GetTotalHitsForRegion(BodyRegion region)
-    {
-        return totalRegionHits.ContainsKey(region) ? totalRegionHits[region] : 0;
-    }
-
-    // Devuelve el total acumulado de colisiones agrupadas entre todas las extremidades.
-    public int GetTotalGroupedCollisions()
-    {
-        return totalRegionHits.Values.Sum();
-    }
-
-    public void RegisterCollision(BodyRegion region, Collider collider)
-    {
-        if (!regionColliders.ContainsKey(region))
-        {
-            regionColliders[region] = new HashSet<Collider>();
-        }
-
-        if (regionColliders[region].Add(collider))
-        {
-            if (!regionColliderCounts.ContainsKey(region))
-                regionColliderCounts[region] = 0;
-
-            regionColliderCounts[region]++;
-
-            // Incrementar el total acumulado
-            if (!totalRegionHits.ContainsKey(region))
-                totalRegionHits[region] = 0;
-
-            totalRegionHits[region]++;
-
-            Debug.Log("Colisión iniciada en extremidad: " + region);
         }
     }
 
-    public void UnregisterCollision(BodyRegion region, Collider collider)
+    public void RegisterCollision(BodyRegion region, Collider wallPart)
     {
-        if (regionColliders.ContainsKey(region) && regionColliders[region].Remove(collider))
+        if (!isGameOver && !activeCollisions.ContainsKey(region))
         {
-            regionColliderCounts[region]--;
+            activeCollisions[region] = wallPart;
+            groupedCollisionCount++;
 
-            if (regionColliderCounts[region] <= 0)
+            vidas--;
+            Debug.Log("¡Colisión agrupada! Vidas restantes: " + vidas);
+
+            if (vidas <= 0)
             {
-                regionColliderCounts.Remove(region);
-                regionColliders.Remove(region);
-
-                Debug.Log("Colisión finalizada en extremidad: " + region);
+                isGameOver = true;
+                StopWallMovement();
             }
         }
     }
 
+    public void UnregisterCollision(BodyRegion region, Collider wallPart)
+    {
+        if (activeCollisions.ContainsKey(region) && activeCollisions[region] == wallPart)
+        {
+            activeCollisions.Remove(region);
+        }
+    }
+
+    public void StopWallMovement()
+    {
+        SingleWallManager wallManager = FindObjectOfType<SingleWallManager>();
+        if (wallManager != null)
+            wallManager.StopWallMovement();
+    }
+
     void OnGUI()
     {
-        GUIStyle style = new GUIStyle
-        {
-            fontSize = 60,
-            normal = { textColor = Color.cyan }
-        };
-
-        GUI.Label(new Rect(40, 60, 1000, 80), "Total de colisiones agrupadas: " + GetTotalGroupedCollisions(), style);
-        GUI.Label(new Rect(40, 100, 1000, 80), "Colisiones agrupadas activas: " + CurrentGroupedCollisions, style);
-
+        GUIStyle style = new GUIStyle();
         style.fontSize = 40;
         style.normal.textColor = Color.white;
 
-        int y = 180;
-        GUI.Label(new Rect(40, y, 1000, 40), "<b>Extremidades en colisión actual:</b>", style);
-        y += 40;
-        foreach (var region in GetActiveRegions())
-        {
-            GUI.Label(new Rect(60, y, 1000, 40), "-->" + region.ToString(), style);
-            y += 40;
-        }
+        GUI.Label(new Rect(20, 20, 400, 50), "Vidas: " + vidas, style);
+        GUI.Label(new Rect(20, 80, 400, 50), "Colisiones agrupadas: " + groupedCollisionCount, style);
 
-        y += 30;
-        style.normal.textColor = Color.yellow;
-        GUI.Label(new Rect(40, y, 1000, 40), "<b>Total acumulado por extremidad:</b>", style);
-        y += 40;
-        foreach (var region in GetAllTouchedRegions())
+        if (isGameOver)
         {
-            GUI.Label(new Rect(60, y, 1000, 40), region + ": " + totalRegionHits[region], style);
-            y += 40;
+            GUIStyle gameOverStyle = new GUIStyle(style);
+            gameOverStyle.fontSize = 100;
+            gameOverStyle.alignment = TextAnchor.MiddleCenter;
+            gameOverStyle.normal.textColor = Color.red;
+
+            GUI.Label(new Rect(Screen.width / 2 - 300, Screen.height / 2 - 100, 600, 200), "GAME OVER", gameOverStyle);
         }
     }
 }
