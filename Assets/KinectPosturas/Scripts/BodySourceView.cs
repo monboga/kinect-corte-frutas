@@ -15,7 +15,6 @@ namespace KinectPosturas
         private Dictionary<ulong, GameObject> _Bodies = new Dictionary<ulong, GameObject>();
         private BodySourceManager _BodyManager;
         private Dictionary<ulong, float> _BodyScaleFactors = new Dictionary<ulong, float>();
-
         private Dictionary<Kinect.JointType, Kinect.JointType> _BoneMap = new Dictionary<Kinect.JointType, Kinect.JointType>()
         {
             { Kinect.JointType.FootLeft, Kinect.JointType.AnkleLeft },
@@ -48,6 +47,8 @@ namespace KinectPosturas
             { Kinect.JointType.Neck, Kinect.JointType.Head },
         };
 
+        private ulong? _activeTrackingId = null;
+
         void Update()
         {
             if (BodySourceManager == null) return;
@@ -67,27 +68,42 @@ namespace KinectPosturas
                 }
             }
 
-            List<ulong> knownIds = new List<ulong>(_Bodies.Keys);
-            foreach (ulong trackingId in knownIds)
+            // Validar si el esqueleto activo sigue siendo rastreado
+            if (_activeTrackingId.HasValue && !trackedIds.Contains(_activeTrackingId.Value))
             {
-                if (!trackedIds.Contains(trackingId))
+                if (_Bodies.ContainsKey(_activeTrackingId.Value))
                 {
-                    Destroy(_Bodies[trackingId]);
-                    _Bodies.Remove(trackingId);
-                    _BodyScaleFactors.Remove(trackingId);
+                    Destroy(_Bodies[_activeTrackingId.Value]);
+                    _Bodies.Remove(_activeTrackingId.Value);
+                    _BodyScaleFactors.Remove(_activeTrackingId.Value);
                 }
+
+                _activeTrackingId = null;
             }
 
-            foreach (var body in data)
+            if (!_activeTrackingId.HasValue)
             {
-                if (body == null || !body.IsTracked) continue;
-
-                if (!_Bodies.ContainsKey(body.TrackingId))
+                foreach (var body in data)
                 {
-                    _Bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
+                    if (body != null && body.IsTracked)
+                    {
+                        _activeTrackingId = body.TrackingId;
+                        _Bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
+                        RefreshBodyObject(body, _Bodies[body.TrackingId]);
+                        break;
+                    }
                 }
-
-                RefreshBodyObject(body, _Bodies[body.TrackingId]);
+            }
+            else
+            {
+                foreach (var body in data)
+                {
+                    if (body != null && body.IsTracked && body.TrackingId == _activeTrackingId.Value)
+                    {
+                        RefreshBodyObject(body, _Bodies[body.TrackingId]);
+                        break;
+                    }
+                }
             }
         }
 
@@ -95,27 +111,12 @@ namespace KinectPosturas
         {
             GameObject body = new GameObject("Body:" + id);
 
-            // Agregar el Rigidbody general del cuerpo
-            Rigidbody rb = body.AddComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.useGravity = false;
-
-            // Agregar el BoxCollider general
-            BoxCollider collider = body.AddComponent<BoxCollider>();
-            collider.isTrigger = true;
-            collider.size = new Vector3(1.5f, 2f, 0.5f);
-
-            // Agregar script de detección general si lo necesitas/////////////////////////
-            //body.AddComponent<PlayerCollisionDetector>();
-
-            // Verificar existencia de la capa "Joint"
             int jointLayer = LayerMask.NameToLayer("Joint");
             if (jointLayer == -1)
             {
                 Debug.LogWarning("La capa 'Joint' no existe. Ve a Edit > Project Settings > Tags and Layers para crearla.");
             }
 
-            // Crear los cubos de articulaciones
             for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
             {
                 GameObject jointObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -124,16 +125,13 @@ namespace KinectPosturas
                 jointObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
                 jointObj.transform.parent = body.transform;
 
-                // Asignar layer "Joint" si existe
                 if (jointLayer != -1)
                 {
                     jointObj.layer = jointLayer;
                 }
 
-                // Eliminar collider primitivo original
                 GameObject.Destroy(jointObj.GetComponent<Collider>());
 
-                // Añadir collider y rigidbody para detección de colisiones individuales
                 BoxCollider jointCollider = jointObj.AddComponent<BoxCollider>();
                 jointCollider.isTrigger = true;
 
@@ -141,17 +139,15 @@ namespace KinectPosturas
                 jointRb.isKinematic = true;
                 jointRb.useGravity = false;
 
-                // Agregar script de colisión por articulación
-                //jointObj.AddComponent<JointCollisionDetector>();///////////
                 JointCollisionDetector detector = jointObj.AddComponent<JointCollisionDetector>();
                 detector.region = GetRegionForJoint(jt);
 
-                // Agregar línea para dibujar huesos
                 LineRenderer lr = jointObj.AddComponent<LineRenderer>();
                 lr.positionCount = 2;
                 lr.material = BoneMaterial;
                 lr.startWidth = 0.05f;
                 lr.endWidth = 0.05f;
+                lr.useWorldSpace = true;
             }
 
             return body;
@@ -179,14 +175,6 @@ namespace KinectPosturas
                 _BodyScaleFactors[body.TrackingId] = scaleFactor;
             }
 
-            var baseJoint = body.Joints[Kinect.JointType.SpineBase];
-            Vector3 bodyWorldPos = new Vector3(
-                -baseJoint.Position.X * 10f * scaleFactor,
-                baseJoint.Position.Y * 10f * scaleFactor,
-                baseJoint.Position.Z * 10f * scaleFactor
-            );
-            bodyObject.transform.position = bodyWorldPos;
-
             for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
             {
                 Kinect.Joint sourceJoint = body.Joints[jt];
@@ -195,17 +183,26 @@ namespace KinectPosturas
                 Transform jointObj = bodyObject.transform.Find(jt.ToString());
                 if (jointObj == null) continue;
 
-                Vector3 currentPos = jointObj.localPosition;
-                Vector3 targetPos = GetScaledLocalPositionFromJoint(sourceJoint, baseJoint, scaleFactor);
-                jointObj.localPosition = Vector3.Lerp(currentPos, targetPos, jointSmoothFactor);
+                Vector3 currentPos = jointObj.position;
+                Vector3 targetPos = GetScaledWorldPositionFromJoint(sourceJoint, scaleFactor);
+                jointObj.position = Vector3.Lerp(currentPos, targetPos, jointSmoothFactor);
 
                 LineRenderer lr = jointObj.GetComponent<LineRenderer>();
                 if (lr != null && targetJoint.HasValue)
                 {
-                    Vector3 targetJointPos = GetScaledLocalPositionFromJoint(targetJoint.Value, baseJoint, scaleFactor);
-                    lr.SetPosition(0, jointObj.localPosition);
-                    lr.SetPosition(1, targetJointPos);
-                    lr.SetColors(GetColorForState(sourceJoint.TrackingState), GetColorForState(targetJoint.Value.TrackingState));
+                    Transform targetTransform = bodyObject.transform.Find(_BoneMap[jt].ToString());
+                    if (targetTransform != null)
+                    {
+                        lr.useWorldSpace = true;
+                        lr.SetPosition(0, jointObj.position);
+                        lr.SetPosition(1, targetTransform.position);
+                        lr.SetColors(GetColorForState(sourceJoint.TrackingState), GetColorForState(targetJoint.Value.TrackingState));
+                        lr.enabled = true;
+                    }
+                    else
+                    {
+                        lr.enabled = false;
+                    }
                 }
                 else if (lr != null)
                 {
@@ -214,11 +211,9 @@ namespace KinectPosturas
             }
         }
 
-        private static Vector3 GetScaledLocalPositionFromJoint(Kinect.Joint joint, Kinect.Joint reference, float scale)
+        private static Vector3 GetScaledWorldPositionFromJoint(Kinect.Joint joint, float scale)
         {
-            Vector3 jointPos = new Vector3(-joint.Position.X, joint.Position.Y, joint.Position.Z);
-            Vector3 refPos = new Vector3(-reference.Position.X, reference.Position.Y, reference.Position.Z);
-            return (jointPos - refPos) * 10f * scale;
+            return new Vector3(-joint.Position.X, joint.Position.Y, joint.Position.Z) * 10f * scale;
         }
 
         private static Color GetColorForState(Kinect.TrackingState state)
