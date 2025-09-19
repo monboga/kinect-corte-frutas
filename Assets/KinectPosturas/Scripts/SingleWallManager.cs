@@ -5,6 +5,9 @@ using System.Reflection;
 
 public class SingleWallManager : MonoBehaviour
 {
+    [Header("UI Elements")]
+    public GameObject menuGameOver;
+
     [Header("Wall Settings")]
     public GameObject wall;
     public float baseSpeed = 10f;
@@ -43,7 +46,18 @@ public class SingleWallManager : MonoBehaviour
                 applyFormMethods.Add(method);
         }
 
-        StartCoroutine(LevelLoop());
+        // Comentado para evitar que el proceso empiece automáticamente
+        // StartCoroutine(LevelLoop());
+    }
+
+    // Método público para iniciar el juego cuando se presione el botón
+    public void StartGame()
+    {
+        // Asegúrate de que el juego solo se inicie una vez
+        if (!isGameOver)
+        {
+            StartCoroutine(LevelLoop());
+        }
     }
 
     IEnumerator LevelLoop()
@@ -85,10 +99,25 @@ public class SingleWallManager : MonoBehaviour
             baseSpeed += 2f;
         }
 
+        /*
         if (!isGameOver)
         {
             showCurrentLevelMessage = false;
             yield return ShowMessage("¡Juego completado!", 3f);
+        }
+        */
+
+        if (!isGameOver)
+        {
+            showCurrentLevelMessage = false;
+            yield return ShowMessage("¡Juego completado!", 3f);
+
+            isGameOver = true;
+
+            if (menuGameOver != null)
+            {
+                menuGameOver.SetActive(true);
+            }
         }
     }
 
@@ -135,6 +164,15 @@ public class SingleWallManager : MonoBehaviour
         wall.transform.position = endPos;
         wall.SetActive(false);
     }
+    /*
+    public void StopWallMovement()
+    {
+        Debug.Log("Juego detenido por GAME OVER");
+        isGameOver = true;
+        StopAllCoroutines();
+        wall.SetActive(false);
+    }
+    */
 
     public void StopWallMovement()
     {
@@ -142,6 +180,11 @@ public class SingleWallManager : MonoBehaviour
         isGameOver = true;
         StopAllCoroutines();
         wall.SetActive(false);
+
+        if (menuGameOver != null)
+        {
+            menuGameOver.SetActive(true);
+        }
     }
 
     void OnGUI()
@@ -174,6 +217,7 @@ public class SingleWallManager : MonoBehaviour
     {
         int[] cubesToDisable = new int[]
         {
+            // Lista de índices para deshabilitar
             9, 10, 11,
             18, 19, 20,
             39, 40, 41,
