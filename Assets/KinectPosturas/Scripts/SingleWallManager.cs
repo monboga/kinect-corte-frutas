@@ -5,8 +5,13 @@ using System.Reflection;
 
 public class SingleWallManager : MonoBehaviour
 {
+    [Header("Componentes de Kinect")]
+    public GameObject kinecInputController; // referencia al objeto que tiene el cursos.
+    public GameObject handCursor; // objeto visual del cursor
+
     [Header("UI Elements")]
     public GameObject menuGameOver;
+    public GameObject menuInstrucciones;
 
     [Header("Wall Settings")]
     public GameObject wall;
@@ -46,6 +51,16 @@ public class SingleWallManager : MonoBehaviour
                 applyFormMethods.Add(method);
         }
 
+        if (menuInstrucciones != null)
+        {
+            menuInstrucciones.SetActive(true);
+        }
+
+        // configurar visibilidad de manos/cursor para el menu de instrucciones
+        //bodyView.enabled = false;
+        kinecInputController.SetActive(true);
+        handCursor.SetActive(true);
+
         // Comentado para evitar que el proceso empiece automáticamente
         // StartCoroutine(LevelLoop());
     }
@@ -57,6 +72,9 @@ public class SingleWallManager : MonoBehaviour
         if (!isGameOver)
         {
             StartCoroutine(LevelLoop());
+            ///////////////////////////////////////
+            kinecInputController.SetActive(false);
+            handCursor.SetActive(false); // ocultamos el objeto del cursor
         }
     }
 
@@ -99,14 +117,6 @@ public class SingleWallManager : MonoBehaviour
             baseSpeed += 2f;
         }
 
-        /*
-        if (!isGameOver)
-        {
-            showCurrentLevelMessage = false;
-            yield return ShowMessage("¡Juego completado!", 3f);
-        }
-        */
-
         if (!isGameOver)
         {
             showCurrentLevelMessage = false;
@@ -118,6 +128,11 @@ public class SingleWallManager : MonoBehaviour
             {
                 menuGameOver.SetActive(true);
             }
+
+            // configurar visibilidad de manos/cursor para el menu de instrucciones
+            //bodyView.enabled = false;
+            kinecInputController.SetActive(true);
+            handCursor.SetActive(true);
         }
     }
 
@@ -164,15 +179,6 @@ public class SingleWallManager : MonoBehaviour
         wall.transform.position = endPos;
         wall.SetActive(false);
     }
-    /*
-    public void StopWallMovement()
-    {
-        Debug.Log("Juego detenido por GAME OVER");
-        isGameOver = true;
-        StopAllCoroutines();
-        wall.SetActive(false);
-    }
-    */
 
     public void StopWallMovement()
     {
@@ -185,8 +191,13 @@ public class SingleWallManager : MonoBehaviour
         {
             menuGameOver.SetActive(true);
         }
-    }
 
+        // configurar visibilidad de manos/cursor para el menu de instrucciones
+        //bodyView.enabled = false;
+        kinecInputController.SetActive(true);
+        handCursor.SetActive(true);
+    }
+    
     void OnGUI()
     {
         GUIStyle style = new GUIStyle
@@ -212,7 +223,7 @@ public class SingleWallManager : MonoBehaviour
             GUI.Label(rect, currentLevelMessage, levelStyle);
         }
     }
-
+    
     void ApplyForm1()
     {
         int[] cubesToDisable = new int[]
