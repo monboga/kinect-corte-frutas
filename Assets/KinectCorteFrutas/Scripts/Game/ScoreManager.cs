@@ -128,6 +128,7 @@ public class ScoreManager : MonoBehaviour
         levelText.text = "Nivel: " + currentLevel; // Mostramos el nivel inicial.
         instructionsPanel.SetActive(true);
         waitingText.gameObject.SetActive(false);
+        resultText.gameObject.SetActive(false);
         gameOverPanel.SetActive(false);
 
         // Detenemos todas las coroutines en el FruitManager
