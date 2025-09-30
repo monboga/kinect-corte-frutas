@@ -340,6 +340,8 @@ public class SingleWallManager : MonoBehaviour
             }
         }
     }
+
+    /*
     void ApplyForm3()
     {
         int[] cubesToDisable = new int[]
@@ -457,6 +459,60 @@ public class SingleWallManager : MonoBehaviour
             else
             {
                 Debug.LogWarning("Índice fuera de rango en ApplyForm4: " + index);
+            }
+        }
+    }
+    */
+
+    void ApplyForm5()
+    {
+        int[] cubesToDisable = new int[]
+        {
+            16, 15, 14, 13,
+            46, 45, 44, 43,
+            76, 75, 74, 73,
+            106, 105, 104, 103,
+            136, 135, 134, 133,
+            166, 165, 164, 163,
+            196, 195, 194, 193,
+            226, 225, 224, 223,
+            256, 255, 254, 253,
+            286, 285, 284, 283,
+            316, 315, 314, 313,
+            346, 345, 344, 343,
+            376, 375, 374, 373,
+            406, 405, 404, 403,
+            436, 435, 434, 433,
+            466, 465, 464, 463,
+            495, 494,
+            524, 525,
+            //izquierda
+            409, 408, 407,
+            439, 438, 437,
+            469, 468, 467,
+            499, 498, 497,
+            529, 528, 527,
+            559, 558, 557,
+            589, 588, 587,
+            //derecha
+            402, 401, 400,
+            432, 431, 430,
+            462, 461, 460,
+            492, 491, 490,
+            522, 521, 520,
+            552, 551, 550,
+            582, 581, 580,
+        };
+
+        foreach (int index in cubesToDisable)
+        {
+            if (index >= 0 && index < wallParts.Count)
+            {
+                wallParts[index].gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.LogWarning("Índice fuera de rango: " + index);
             }
         }
     }
